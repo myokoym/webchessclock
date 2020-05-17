@@ -1,0 +1,47 @@
+<template>
+  <div>
+    <h4>
+      説明書
+      <small class="text-muted">usage</small>
+    </h4>
+    <dl class="row">
+      <dt class="col-sm-2">概要</dt>
+      <dd class="col-sm-10">
+        複数人がリアルタイムで同じ対局時計（チェスクロック）を表示・操作できるWebアプリケーションです。
+        ちょっとした自由対局や研究会などにお使いいただけます。
+      </dd>
+      <dt class="col-sm-2">ルーム作成</dt>
+      <dd class="col-sm-10">
+        任意のルームIDを入力してください。対局時計はルーム（URL）単位で同期されます。
+        入力したルームIDはそのままURLに使われるため、半角英数字を推奨します。
+      </dd>
+      <dt class="col-sm-2">URL共有</dt>
+      <dd class="col-sm-10">
+        URLをコピーして、対局時計を共有したい人に伝えてください。
+        直接ルームに入ることができます。（ユーザー認証はありません）
+      </dd>
+      <dt class="col-sm-2">対局時計の同期</dt>
+      <dd class="col-sm-10">
+        誰かが時計を動かすと、同じURLを表示しているすべての人の対局時計が自動で更新されます。
+        （同時に動かすと直前の動作が上書きされる場合があります。）
+      </dd>
+      <dt class="col-sm-2">対局時計の保存</dt>
+      <dd class="col-sm-10">
+        サーバーには現在の状態が保存されます。ルームIDに紐づけて保存され、半永久的に残ります（メンテナンスによって削除される場合があります）。
+      </dd>
+      <dt class="col-sm-2">対局時計の操作</dt>
+      <dd class="col-sm-10">
+        クリック
+      </dd>
+      <dt class="col-sm-2">問い合わせ</dt>
+      <dd class="col-sm-10">
+        Twitterでサポートを行っています。不明点などがありましたら、
+        <a href="https://twitter.com/shogiwebroom">@shogiwebroom</a>
+        までご連絡ください。
+      </dd>
+    </dl>
+  </div>
+</template>
+
+<style>
+</style>
