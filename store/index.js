@@ -9,6 +9,7 @@ const webSocketPlugin = (store) => {
         mutation.type === "clock/cancelPause" ||
         mutation.type === "clock/reset") {
       console.log("send")
+      console.log(state.clock.pause)
       socket.emit("send", {
         roomId: state.room.id,
         currentTurn: state.clock.currentTurn,

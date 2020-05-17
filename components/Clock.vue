@@ -1,10 +1,10 @@
 <template>
   <div class="">
     対局時計: {{displayBTime}} : {{displayWTime}}
-    <button type="button" v-on:click="changeTurn('w')">先手側のボタン</button>
-    <button type="button" v-on:click="changeTurn('b')">後手側のボタン</button>
+    <button type="button" v-on:click="changeTurn('w')" v-bind:disabled="pause || turn === 'w'">先手側のボタン</button>
+    <button type="button" v-on:click="changeTurn('b')" v-bind:disabled="pause || turn === 'b'">後手側のボタン</button>
     <button type="button" v-if="turn" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
-    <button type="button" v-if="!turn || pause || zero" v-on:click="reset()">リセット</button>
+    <button type="button" v-bind:disabled="turn && !pause && !zero" v-on:click="reset()">リセット</button>
     {{turn}}
     {{$store.state.clock.currentTurn}}
     {{pause}}
@@ -62,6 +62,9 @@ export default Vue.extend({
       return min + ":" + sec
     },
     changeTurn(nextTurn) {
+      if (this.pause === true) {
+        return
+      }
       if (this.turn === nextTurn) {
         return
       }
@@ -84,7 +87,7 @@ export default Vue.extend({
     //  this.requestID = undefined
     //},
     step(timestamp) {
-      if (!this.pause) {
+      if (this.pause === false) {
         this.subtotal += timestamp - this.performanceNow
         if (this.subtotal >= 100) {
           const rem = this.subtotal % 100

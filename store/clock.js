@@ -65,6 +65,7 @@ export const mutations = {
     state.timeLimits['w'] = payload.timeLimit
   },
   setPause(state, payload) {
+    console.log(payload)
     state.pause = payload.pause
   },
 }

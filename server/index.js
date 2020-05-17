@@ -100,16 +100,16 @@ function socketStart(server) {
         roomId = params.roomId
         socket.join(roomId)
       }
-      if (params.currentTurn) {
+      if ("currentTurn" in params) {
         redis.hset(roomId, "currentTurn", params.currentTurn)
       }
-      if (params.timeLimitB) {
+      if ("timeLimitB" in params) {
         redis.hset(roomId, "timeLimitB", params.timeLimitB)
       }
-      if (params.timeLimitW) {
+      if ("timeLimitW" in params) {
         redis.hset(roomId, "timeLimitW", params.timeLimitW)
       }
-      if (params.pause) {
+      if ("pause" in params) {
         redis.hset(roomId, "pause", params.pause)
       }
       socket.broadcast.to(roomId).emit("update", params)
