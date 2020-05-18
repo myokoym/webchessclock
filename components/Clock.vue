@@ -4,17 +4,28 @@
     <button type="button" v-on:click="changeTurn('w')" v-bind:disabled="pause || turn === 'w'">先手側のボタン</button>
     <button type="button" v-on:click="changeTurn('b')" v-bind:disabled="pause || turn === 'b'">後手側のボタン</button>
     <button type="button" v-if="turn" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
-    <button type="button" v-bind:disabled="turn && !pause && !zero" v-on:click="reset()">リセット</button>
     {{turn}}
     {{$store.state.clock.turn}}
     {{pause}}
+    <hr>
+    <div class="d-flex justify-content-around align-items-center">
+      <InputSpinner v-model="value" label="持ち時間（分）"></InputSpinner>
+      <InputSpinner v-model="value2" label="秒読み（秒）"></InputSpinner>
+      <InputSpinner v-model="value3" label="一手ごとの追加時間 （秒）"></InputSpinner>
+    </div>
+    <hr>
+    <button type="button" v-bind:disabled="turn && !pause && !zero" v-on:click="reset()">リセット</button>
   </div>
 </template>
 <script>
 import Vue from "vue"
 import { mapState } from "vuex"
+import InputSpinner from '~/components/InputSpinner.vue'
 
 export default Vue.extend({
+  components: {
+    InputSpinner,
+  },
   computed: {
     displayBTime: function() {
       //console.log("displayBTime")
@@ -41,6 +52,9 @@ export default Vue.extend({
       performanceNow: undefined,
       requestID: undefined,
       subtotal: 0,
+      value: 0,
+      value2: 0,
+      value3: 0,
     }
   },
   mounted() {
