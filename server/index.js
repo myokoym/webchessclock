@@ -55,43 +55,19 @@ function socketStart(server) {
       roomId = id
       socket.join(roomId)
       redis.hmget(roomId, [
-        "currentTurn",
+        "turn",
         "timeLimitB",
         "timeLimitW",
         "pause",
       ], function(err, result) {
         console.log(result)
         io.to(roomId).emit("update", {
-          currentTurn: result[0],
+          turn: result[0],
           timeLimitB: result[1],
           timeLimitW: result[2],
           pause: result[3],
         })
       })
-      //Redis.Command.setReplyTransformer("hgetall", function(result) {
-      //  if (Array.isArray(result)) {
-      //    var obj = {};
-      //    for (var i = 0; i < result.length; i += 2) {
-      //      obj[result[i]] = result[i + 1];
-      //    }
-      //    return obj;
-      //  }
-      //  return result;
-      //});
-      //if (err) {
-      //  console.log(err)
-      //}
-        //if (result) {
-        //  io.to(socket.id).emit("update", result)
-        //    currentTurn: undefined,
-        //    timeLimits: {
-        //      b: 0,
-        //      w: 0,
-        //    },
-        //    pause: false,
-        //}
-        //socket.broadcast.to(roomId).emit("update", params)
-      //})
     })
     socket.on("send", (params) => {
       console.log("send")
@@ -100,8 +76,8 @@ function socketStart(server) {
         roomId = params.roomId
         socket.join(roomId)
       }
-      if ("currentTurn" in params) {
-        redis.hset(roomId, "currentTurn", params.currentTurn)
+      if ("turn" in params) {
+        redis.hset(roomId, "turn", params.turn)
       }
       if ("timeLimitB" in params) {
         redis.hset(roomId, "timeLimitB", params.timeLimitB)
@@ -115,43 +91,6 @@ function socketStart(server) {
       socket.broadcast.to(roomId).emit("update", params)
       //io.to(roomId).emit("update", params)
     })
-
-    //socket.on("sendComment", (params) => {
-    //  const time = moment(new Date()).utcOffset('+09:00').format('H:mm:ss')
-    //  io.to(roomId).emit("receiveComment", {
-    //    time: time,
-    //    name: params.name,
-    //    comment: params.comment,
-    //  })
-    //})
-
-    //socket.on("clockChangeTurn", (params) => {
-    //  // debug: console.log("on clockChangeTurn: " + params.nextTurn)
-    //  io.to(roomId).emit("clock", {
-    //    type: "changeTurn",
-    //    nextTurn: params.nextTurn,
-    //  })
-    //})
-    //socket.on("clockPause", () => {
-    //  // debug: console.log("on clockPause")
-    //  io.to(roomId).emit("clock", {type: "pause"})
-    //})
-    //socket.on("clockCancelPause", () => {
-    //  // debug: console.log("on clockCancelPause")
-    //  io.to(roomId).emit("clock", {type: "cancelPause"})
-    //})
-    //socket.on("clockReset", () => {
-    //  // debug: console.log("on clockReset")
-    //  io.to(roomId).emit("clock", {type: "reset"})
-    //})
-    //socket.on("clockEnable", () => {
-    //  console.log("on clockEnable")
-    //  io.to(roomId).emit("clock", {type: "enable"})
-    //})
-    //socket.on("clockDisable", () => {
-    //  console.log("on clockDisable")
-    //  io.to(roomId).emit("clock", {type: "disable"})
-    //})
   })
 }
 

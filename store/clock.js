@@ -1,12 +1,28 @@
 export const state = () => ({
-  mode: undefined,
-  countdown: 0,
-  currentTurn: undefined,
-  timeLimits: {
-    b: 0,
-    w: 0,
-  },
+  turn: undefined,
   pause: false,
+  current: {
+    b: {
+      time: 0,
+      countdown: 0,
+    },
+    w: {
+      time: 0,
+      countdown: 0,
+    },
+  },
+  master: {
+    b: {
+      time: 0,
+      countdown: 0,
+      additional: 0,
+    },
+    w: {
+      time: 0,
+      countdown: 0,
+      additional: 0,
+    },
+  },
 })
 
 export const mutations = {
@@ -16,17 +32,20 @@ export const mutations = {
     //state.timeLimits['w'] = timeLimit
   },
   decreaseTimeLimit(state, payload) {
-    state.timeLimits[state.currentTurn] -= payload.diff
-    if (state.timeLimits[state.currentTurn] < 0) {
-      state.timeLimits[state.currentTurn] = 0
+    if (!state.turn) {
+      return
+    }
+    state.current[state.turn].time -= payload.diff
+    if (state.current[state.turn].time < 0) {
+      state.current[state.turn].time = 0
     }
   },
   changeTurn(state, payload) {
     const nextTurn = payload.nextTurn
-    if (state.currentTurn === nextTurn) {
+    if (state.turn === nextTurn) {
       return
     }
-    state.currentTurn = nextTurn
+    state.turn = nextTurn
   },
   pause(state) {
     state.pause = true
@@ -37,32 +56,20 @@ export const mutations = {
   reset(state) {
     console.log("emitReset")
     state.requestID = undefined
-    state.currentTurn = undefined
+    state.turn = undefined
     const timeLimit = 5 * 60 * 1000
-    state.timeLimits['b'] = timeLimit
-    state.timeLimits['w'] = timeLimit
+    state.current['b'].time = timeLimit
+    state.current['w'].time = timeLimit
     state.pause = false
   },
-  //emitChangeTurn(state, payload) {
-  //  this.commit("clock/changeTurn", {nextTurn: payload.nextTurn})
-  //},
-  //emitPause(state) {
-  //  this.commit("clock/pause")
-  //},
-  //emitCancelPause(state) {
-  //  this.commit("clock/cancelPause")
-  //},
-  //emitReset(state) {
-  //  this.commit("clock/reset")
-  //},
-  setCurrentTurn(state, payload) {
-    state.currentTurn = payload.currentTurn
+  setTurn(state, payload) {
+    state.turn = payload.turn
   },
   setTimeLimitB(state, payload) {
-    state.timeLimits['b'] = payload.timeLimit
+    state.current['b'].time = payload.timeLimit
   },
   setTimeLimitW(state, payload) {
-    state.timeLimits['w'] = payload.timeLimit
+    state.current['w'].time = payload.timeLimit
   },
   setPause(state, payload) {
     console.log(payload)

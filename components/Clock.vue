@@ -6,7 +6,7 @@
     <button type="button" v-if="turn" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     <button type="button" v-bind:disabled="turn && !pause && !zero" v-on:click="reset()">リセット</button>
     {{turn}}
-    {{$store.state.clock.currentTurn}}
+    {{$store.state.clock.turn}}
     {{pause}}
   </div>
 </template>
@@ -18,21 +18,21 @@ export default Vue.extend({
   computed: {
     displayBTime: function() {
       //console.log("displayBTime")
-      return this.displayTime(this.timeLimits['b'])
+      return this.displayTime(this.current['b'].time)
     },
     displayWTime: function() {
-      return this.displayTime(this.timeLimits['w'])
+      return this.displayTime(this.current['w'].time)
     },
     turn: function() {
-      return this.$store.state.clock.currentTurn
+      return this.$store.state.clock.turn
     },
     zero: function() {
-      return this.timeLimits['b'] === 0 ||
-             this.timeLimits['w'] === 0
+      return this.current['b'].time === 0 ||
+             this.current['w'].time === 0
     },
     ...mapState("clock", [
       //"currentTurn",
-      "timeLimits",
+      "current",
       "pause",
     ]),
   },

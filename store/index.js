@@ -12,9 +12,9 @@ const webSocketPlugin = (store) => {
       console.log(state.clock.pause)
       socket.emit("send", {
         roomId: state.room.id,
-        currentTurn: state.clock.currentTurn,
-        timeLimitB: state.clock.timeLimits['b'],
-        timeLimitW: state.clock.timeLimits['w'],
+        turn: state.clock.turn,
+        timeLimitB: state.clock.current['b'].time,
+        timeLimitW: state.clock.current['w'].time,
         pause: state.clock.pause,
       })
     } else if (mutation.type === "room/setId") {
@@ -23,36 +23,12 @@ const webSocketPlugin = (store) => {
       socket.on("update", (params) => {
         console.log("update")
         console.log(params)
-        store.commit("clock/setCurrentTurn", {currentTurn: params.currentTurn})
+        store.commit("clock/setTurn", {turn: params.turn})
         store.commit("clock/setTimeLimitB", {timeLimit: params.timeLimitB})
         store.commit("clock/setTimeLimitW", {timeLimit: params.timeLimitW})
         store.commit("clock/setPause", {pause: params.pause})
       })
-      //socket.on("clock", (params) => {
-      //  if (params.type === "changeTurn") {
-      //    store.commit("clock/onChangeTurn", {
-      //      nextTurn: params.nextTurn,
-      //    })
-      //  } else if (params.type === "pause") {
-      //    store.commit("clock/onPause")
-      //  } else if (params.type === "cancelPause") {
-      //    store.commit("clock/onCancelPause")
-      //  } else if (params.type === "reset") {
-      //    store.commit("clock/onReset")
-      //  } else if (params.type === "enable") {
-      //    console.log("commit onEnable")
-      //    store.commit("clock/onEnable")
-      //  } else if (params.type === "disable") {
-      //    store.commit("clock/onDisable")
-      //  }
-      //})
       socket.emit("enterRoom", id)
-    } else if (mutation.type === "chat/sendComment") {
-      socket.emit("sendComment", {
-        id: state.sfen.roomId,
-        name: state.chat.name,
-        comment: state.chat.comment,
-      })
     } else if (mutation.type === "clock/emitChangeTurn") {
       console.log("emit clockChangeTurn: " + state.clock.nextTurn)
       socket.emit("clockChangeTurn", {
@@ -64,10 +40,6 @@ const webSocketPlugin = (store) => {
       socket.emit("clockCancelPause")
     } else if (mutation.type === "clock/emitReset") {
       socket.emit("clockReset")
-    } else if (mutation.type === "clock/emitEnable") {
-      socket.emit("clockEnable")
-    } else if (mutation.type === "clock/emitDisable") {
-      socket.emit("clockDisable")
     }
   })
 }
