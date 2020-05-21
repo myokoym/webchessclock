@@ -56,16 +56,22 @@ function socketStart(server) {
       socket.join(roomId)
       redis.hmget(roomId, [
         "turn",
-        "timeLimitB",
-        "timeLimitW",
         "pause",
+        "nPlayers",
+        "masterTime",
+        "masterCountdown",
+        "time1",
+        "time2",
       ], function(err, result) {
         console.log(result)
         io.to(roomId).emit("update", {
           turn: result[0],
-          timeLimitB: result[1],
-          timeLimitW: result[2],
-          pause: result[3],
+          pause: result[1],
+          nPlayers: result[2],
+          masterTime: result[3],
+          masterCountdown: result[4],
+          time1: result[5],
+          time2: result[6],
         })
       })
     })
@@ -79,14 +85,23 @@ function socketStart(server) {
       if ("turn" in params) {
         redis.hset(roomId, "turn", params.turn)
       }
-      if ("timeLimitB" in params) {
-        redis.hset(roomId, "timeLimitB", params.timeLimitB)
-      }
-      if ("timeLimitW" in params) {
-        redis.hset(roomId, "timeLimitW", params.timeLimitW)
-      }
       if ("pause" in params) {
         redis.hset(roomId, "pause", params.pause)
+      }
+      if ("nPlayers" in params) {
+        redis.hset(roomId, "nPlayers", params.nPlayers)
+      }
+      if ("masterTime" in params) {
+        redis.hset(roomId, "masterTime", params.masterTime)
+      }
+      if ("masterCountdown" in params) {
+        redis.hset(roomId, "masterCountdown", params.masterCountdown)
+      }
+      if ("time1" in params) {
+        redis.hset(roomId, "time1", params.time1)
+      }
+      if ("time2" in params) {
+        redis.hset(roomId, "time2", params.time2)
       }
       socket.broadcast.to(roomId).emit("update", params)
       //io.to(roomId).emit("update", params)

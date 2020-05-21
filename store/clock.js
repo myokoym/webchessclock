@@ -1,43 +1,31 @@
 export const state = () => ({
   turn: undefined,
   pause: false,
-  current: {
-    b: {
+  players: [
+    {
       time: 0,
       countdown: 0,
     },
-    w: {
+    {
       time: 0,
       countdown: 0,
     },
-  },
+  ],
+  nPlayers: 2,
   master: {
-    b: {
-      time: 0,
-      countdown: 0,
-      additional: 0,
-    },
-    w: {
-      time: 0,
-      countdown: 0,
-      additional: 0,
-    },
+    time: 0,
+    countdown: 0,
   },
 })
 
 export const mutations = {
-  defaultTimeLimits(state) {
-    //const timeLimit = 5 * 60 * 1000
-    //state.timeLimits['b'] = timeLimit
-    //state.timeLimits['w'] = timeLimit
-  },
   decreaseTimeLimit(state, payload) {
-    if (!state.turn) {
+    if (typeof state.turn !== "number") {
       return
     }
-    state.current[state.turn].time -= payload.diff
-    if (state.current[state.turn].time < 0) {
-      state.current[state.turn].time = 0
+    state.players[state.turn].time -= payload.diff
+    if (state.players[state.turn].time < 0) {
+      state.players[state.turn].time = 0
     }
   },
   changeTurn(state, payload) {
@@ -53,26 +41,46 @@ export const mutations = {
   cancelPause(state) {
     state.pause = false
   },
+  init(state) {
+  },
   reset(state) {
-    console.log("emitReset")
+    console.log("reset")
     state.requestID = undefined
     state.turn = undefined
-    const timeLimit = 5 * 60 * 1000
-    state.current['b'].time = timeLimit
-    state.current['w'].time = timeLimit
+    state.players = []
+    for (let i = 0; i < state.nPlayers; i++) {
+      state.players.push({
+        time: state.master.time * 60 * 1000,
+        countdown: state.master.countdown * 1000,
+      })
+    }
     state.pause = false
   },
-  setTurn(state, payload) {
+  emitNPlayers(state, payload) {
+    console.log("emitNP")
+    state.nPlayers = payload.nPlayers
+  },
+  emitMasterTime(state, payload) {
+    state.master.time = payload.masterTime
+  },
+  emitMasterCountdown(state, payload) {
+    //state.master.countdown = payload
+  },
+  update(state, payload) {
     state.turn = payload.turn
-  },
-  setTimeLimitB(state, payload) {
-    state.current['b'].time = payload.timeLimit
-  },
-  setTimeLimitW(state, payload) {
-    state.current['w'].time = payload.timeLimit
-  },
-  setPause(state, payload) {
-    console.log(payload)
     state.pause = payload.pause
+    if (payload.masterTime !== undefined) {
+      state.master.time = payload.masterTime
+    }
+    if (payload.nPlayers !== undefined) {
+      state.nPlayers = payload.nPlayers
+      state.players = []
+      for (let i = 0; i < state.nPlayers; i++) {
+        state.players.push({
+          time: payload["time" + (i + 1)] * 60 * 1000,
+        })
+      }
+      console.log(state.players)
+    }
   },
 }

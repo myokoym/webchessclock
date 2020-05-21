@@ -1,20 +1,37 @@
 <template>
   <div class="">
-    対局時計: {{displayBTime}} : {{displayWTime}}
-    <button type="button" v-on:click="changeTurn('w')" v-bind:disabled="pause || turn === 'w'">先手側のボタン</button>
-    <button type="button" v-on:click="changeTurn('b')" v-bind:disabled="pause || turn === 'b'">後手側のボタン</button>
-    <button type="button" v-if="turn" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
+    対局時計: {{displayTime1}} : {{displayTime2}}
+    <button type="button" v-on:click="changeTurn(1)" v-bind:disabled="pause || turn === 1">先手側のボタン</button>
+    <button type="button" v-on:click="changeTurn(0)" v-bind:disabled="pause || turn === 0">後手側のボタン</button>
+    <button type="button" v-if="turn !== undefined" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     {{turn}}
     {{$store.state.clock.turn}}
     {{pause}}
+    {{players}}
+    {{players[0].time}}
+    {{master.time}}
     <hr>
     <div class="d-flex justify-content-around align-items-center">
-      <InputSpinner v-model="value" label="持ち時間（分）"></InputSpinner>
-      <InputSpinner v-model="value2" label="秒読み（秒）"></InputSpinner>
-      <InputSpinner v-model="value3" label="一手ごとの追加時間 （秒）"></InputSpinner>
+      <InputSpinner
+        v-model="nPlayers"
+        v-bind:emit="emitNPlayers"
+        v-bind:max="2"
+        label="人数"
+      ></InputSpinner>
+      <InputSpinner
+        v-model="master.time"
+        v-bind:emit="emitMasterTime"
+        v-bind:max="540"
+        label="持ち時間（分）"
+      ></InputSpinner>
+      <InputSpinner
+        v-model="master.countdown"
+        v-bind:max="300"
+        label="秒読み（秒）"
+      ></InputSpinner>
     </div>
     <hr>
-    <button type="button" v-bind:disabled="turn && !pause && !zero" v-on:click="reset()">リセット</button>
+    <button type="button" v-bind:disabled="turn !== undefined && !pause && !zero" v-on:click="reset()">リセット</button>
   </div>
 </template>
 <script>
@@ -27,23 +44,26 @@ export default Vue.extend({
     InputSpinner,
   },
   computed: {
-    displayBTime: function() {
-      //console.log("displayBTime")
-      return this.displayTime(this.current['b'].time)
+    displayTime1: function() {
+      console.log("displayTime1")
+      console.log(this.players[0].time)
+      return this.displayTime(this.players[0].time)
     },
-    displayWTime: function() {
-      return this.displayTime(this.current['w'].time)
+    displayTime2: function() {
+      return this.displayTime(this.players[1].time)
     },
     turn: function() {
       return this.$store.state.clock.turn
     },
     zero: function() {
-      return this.current['b'].time === 0 ||
-             this.current['w'].time === 0
+      return this.players[0].time === 0 ||
+             this.players[1].time === 0
     },
     ...mapState("clock", [
-      //"currentTurn",
-      "current",
+      //"playersTurn",
+      "nPlayers",
+      "players",
+      "master",
       "pause",
     ]),
   },
@@ -52,13 +72,15 @@ export default Vue.extend({
       performanceNow: undefined,
       requestID: undefined,
       subtotal: 0,
-      value: 0,
-      value2: 0,
-      value3: 0,
     }
+  },
+  created() {
+    //this.reset()
   },
   mounted() {
     this.startLoop()
+    //this.masterTime = 5
+    //this.masterCountdown = 30
   },
   watch: {
     turn: function() {
@@ -66,13 +88,16 @@ export default Vue.extend({
     },
   },
   methods: {
-    displayTime(timeLimit) {
-      const timeLimitSecond = Math.floor(timeLimit / 1000)
-      const min = Math.floor(timeLimitSecond / 60)
-      let sec = timeLimitSecond % 60
+    displayTime(time) {
+      console.log(time)
+      const timeSecond = Math.floor(time / 1000)
+      const min = Math.floor(timeSecond / 60)
+      let sec = timeSecond % 60
       if (sec < 10) {
         sec = "0" + sec
       }
+      console.log(min)
+      console.log(sec)
       return min + ":" + sec
     },
     changeTurn(nextTurn) {
@@ -107,6 +132,7 @@ export default Vue.extend({
           const rem = this.subtotal % 100
           this.$store.commit("clock/decreaseTimeLimit", {
             diff: this.subtotal - rem,
+            turn: this.turn,
           })
           this.subtotal = rem
         }
@@ -123,6 +149,13 @@ export default Vue.extend({
     },
     reset() {
       this.$store.commit("clock/reset")
+    },
+    emitNPlayers: function(newValue) {
+      console.log("emitNPlayers: " + newValue)
+      this.$store.commit("clock/emitNPlayers", {nPlayers: newValue})
+    },
+    emitMasterTime: function(newValue) {
+      this.$store.commit("clock/emitMasterTime", {masterTime: newValue})
     },
   }
 })
