@@ -14,17 +14,20 @@
         v-model="nPlayers"
         v-bind:emit="emitNPlayers"
         v-bind:max="2"
+        v-bind:min="1"
         label="人数"
       ></InputSpinner>
       <InputSpinner
         v-model="master.time"
         v-bind:emit="emitMasterTime"
         v-bind:max="540"
+        v-bind:min="0"
         label="持ち時間（分）"
       ></InputSpinner>
       <InputSpinner
         v-model="master.countdown"
         v-bind:max="300"
+        v-bind:min="0"
         label="秒読み（秒）"
       ></InputSpinner>
     </div>

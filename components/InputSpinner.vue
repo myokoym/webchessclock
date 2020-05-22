@@ -5,9 +5,9 @@
     <button class="btn btn-dark" type="button" v-if="max >= 5"  v-on:click="add(5)"  v-bind:disabled="value >= max">+5</button>
     <button class="btn btn-dark" type="button"                  v-on:click="add(1)"  v-bind:disabled="value >= max">+1</button>
     <input type="text" class="form-control text-center" v-bind:value="value" readonly>
-    <button class="btn btn-dark" type="button"                  v-on:click="add(-1)"  v-bind:disabled="value < 1">-1</button>
-    <button class="btn btn-dark" type="button" v-if="max >= 5"  v-on:click="add(-5)"  v-bind:disabled="value < 5">-5</button>
-    <button class="btn btn-dark" type="button" v-if="max >= 10" v-on:click="add(-10)" v-bind:disabled="value < 10">-10</button>
+    <button class="btn btn-dark" type="button"                  v-on:click="add(-1)"  v-bind:disabled="value <= min">-1</button>
+    <button class="btn btn-dark" type="button" v-if="max >= 5"  v-on:click="add(-5)"  v-bind:disabled="value <= min">-5</button>
+    <button class="btn btn-dark" type="button" v-if="max >= 10" v-on:click="add(-10)" v-bind:disabled="value <= min">-10</button>
   </div>
 </template>
 <script>
@@ -17,6 +17,7 @@ export default Vue.extend({
   props: {
     value: Number,
     max: Number,
+    min: Number,
     label: String,
     emit: Function,
   },
@@ -32,6 +33,8 @@ export default Vue.extend({
       }
       if (newValue > this.max) {
         newValue = this.max
+      } else if (newValue < this.min) {
+        newValue = this.min
       }
       //this.$emit('input', newValue)
       if (this.emit) {
