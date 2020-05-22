@@ -1,15 +1,13 @@
 <template>
   <div class="">
-    対局時計: {{displayTime1}} : {{displayTime2}}
+    対局時計: {{players[0].displayTime}} : {{players[1].displayTime}}
     <button type="button" v-on:click="changeTurn(1)" v-bind:disabled="pause || turn === 1">先手側のボタン</button>
     <button type="button" v-on:click="changeTurn(0)" v-bind:disabled="pause || turn === 0">後手側のボタン</button>
     <button type="button" v-if="turn !== undefined" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     {{turn}}
-    {{$store.state.clock.turn}}
     {{pause}}
     {{players}}
-    {{players[0].time}}
-    {{master.time}}
+    {{master}}
     <hr>
     <div class="d-flex justify-content-around align-items-center">
       <InputSpinner
@@ -72,6 +70,7 @@ export default Vue.extend({
       performanceNow: undefined,
       requestID: undefined,
       subtotal: 0,
+      displayTimes: ["0:00", "0:00"],
     }
   },
   created() {
@@ -88,18 +87,6 @@ export default Vue.extend({
     },
   },
   methods: {
-    displayTime(time) {
-      console.log(time)
-      const timeSecond = Math.floor(time / 1000)
-      const min = Math.floor(timeSecond / 60)
-      let sec = timeSecond % 60
-      if (sec < 10) {
-        sec = "0" + sec
-      }
-      console.log(min)
-      console.log(sec)
-      return min + ":" + sec
-    },
     changeTurn(nextTurn) {
       if (this.pause === true) {
         return
@@ -126,11 +113,13 @@ export default Vue.extend({
     //  this.requestID = undefined
     //},
     step(timestamp) {
-      if (this.pause === false) {
+      if (this.turn !== undefined && this.pause === false) {
+        //console.log("step: " + timestamp)
         this.subtotal += timestamp - this.performanceNow
+        //console.log("subtotal: " + this.subtotal)
         if (this.subtotal >= 100) {
           const rem = this.subtotal % 100
-          this.$store.commit("clock/decreaseTimeLimit", {
+          this.$store.commit("clock/decreaseTime", {
             diff: this.subtotal - rem,
             turn: this.turn,
           })

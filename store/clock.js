@@ -4,10 +4,12 @@ export const state = () => ({
   players: [
     {
       time: 0,
+      displayTime: "0:00",
       countdown: 0,
     },
     {
       time: 0,
+      displayTime: "0:00",
       countdown: 0,
     },
   ],
@@ -19,7 +21,9 @@ export const state = () => ({
 })
 
 export const mutations = {
-  decreaseTimeLimit(state, payload) {
+  decreaseTime(state, payload) {
+    console.log("decreaseTime")
+    //console.log(state.turn)
     if (typeof state.turn !== "number") {
       return
     }
@@ -27,6 +31,23 @@ export const mutations = {
     if (state.players[state.turn].time < 0) {
       state.players[state.turn].time = 0
     }
+  },
+  updateDisplayTimes(state) {
+    console.log("updateDisplaythTimes")
+    state.players.forEach((player) => {
+      console.log(player)
+      if (player && player.time) {
+        const timeSecond = Math.floor(player.time / 1000)
+        const min = Math.floor(timeSecond / 60)
+        let sec = timeSecond % 60
+        if (sec < 10) {
+          sec = "0" + sec
+        }
+        player.displayTime = min + ":" + sec
+      } else {
+        player.displayTime = "0:00"
+      }
+    })
   },
   changeTurn(state, payload) {
     const nextTurn = payload.nextTurn
@@ -67,17 +88,19 @@ export const mutations = {
     //state.master.countdown = payload
   },
   update(state, payload) {
+    console.log("update")
     state.turn = payload.turn
     state.pause = payload.pause
     if (payload.masterTime !== undefined) {
-      state.master.time = payload.masterTime
+      state.master.time = parseInt(payload.masterTime)
     }
     if (payload.nPlayers !== undefined) {
-      state.nPlayers = payload.nPlayers
+      state.nPlayers = parseInt(payload.nPlayers)
       state.players = []
+      console.log(payload)
       for (let i = 0; i < state.nPlayers; i++) {
         state.players.push({
-          time: payload["time" + (i + 1)] * 60 * 1000,
+          time: payload["time" + (i + 1)],
         })
       }
       console.log(state.players)

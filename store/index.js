@@ -47,6 +47,11 @@ const webSocketPlugin = (store) => {
       })
       socket.emit("enterRoom", id)
     }
+    if (mutation.type === "clock/update" ||
+        mutation.type === "clock/decreaseTime" ||
+        mutation.type === "clock/reset") {
+      store.commit("clock/updateDisplayTimes")
+    }
   })
 }
 
