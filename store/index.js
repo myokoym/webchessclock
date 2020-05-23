@@ -5,6 +5,7 @@ const webSocketPlugin = (store) => {
 
   store.subscribe((mutation, state) => {
     if (mutation.type === "clock/changeTurn") {
+      console.log(state.clock.players)
       socket.emit("send", {
         roomId: state.room.id,
         turn: state.clock.turn,
@@ -16,6 +17,8 @@ const webSocketPlugin = (store) => {
       socket.emit("send", {
         roomId: state.room.id,
         pause: state.clock.pause,
+        time1: state.clock.players[0].time,
+        time2: state.clock.players[1].time,
       })
     } else if (mutation.type === "clock/emitNPlayers") {
       socket.emit("send", {
