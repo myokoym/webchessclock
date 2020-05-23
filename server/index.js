@@ -60,8 +60,7 @@ function socketStart(server) {
         "nPlayers",
         "masterTime",
         "masterCountdown",
-        "time1",
-        "time2",
+        "times",
       ], function(err, result) {
         console.log(result)
         io.to(roomId).emit("update", {
@@ -70,8 +69,7 @@ function socketStart(server) {
           nPlayers: result[2],
           masterTime: result[3],
           masterCountdown: result[4],
-          time1: result[5],
-          time2: result[6],
+          times: result[5],
         })
       })
     })
@@ -97,11 +95,8 @@ function socketStart(server) {
       if ("masterCountdown" in params) {
         redis.hset(roomId, "masterCountdown", params.masterCountdown)
       }
-      if ("time1" in params) {
-        redis.hset(roomId, "time1", params.time1)
-      }
-      if ("time2" in params) {
-        redis.hset(roomId, "time2", params.time2)
+      if ("times" in params) {
+        redis.hset(roomId, "times", params.times)
       }
       socket.broadcast.to(roomId).emit("update", params)
       //io.to(roomId).emit("update", params)

@@ -9,16 +9,14 @@ const webSocketPlugin = (store) => {
       socket.emit("send", {
         roomId: state.room.id,
         turn: state.clock.turn,
-        time1: state.clock.players[0].time,
-        time2: state.clock.players[1].time,
+        times: state.clock.players.map((player) => {return player.time}).join(","),
       })
     } else if (mutation.type === "clock/pause" ||
                mutation.type === "clock/cancelPause") {
       socket.emit("send", {
         roomId: state.room.id,
         pause: state.clock.pause,
-        time1: state.clock.players[0].time,
-        time2: state.clock.players[1].time,
+        times: state.clock.players.map((player) => {return player.time}).join(","),
       })
     } else if (mutation.type === "clock/emitNPlayers") {
       socket.emit("send", {
@@ -37,8 +35,7 @@ const webSocketPlugin = (store) => {
         pause: state.clock.pause,
         nPlayers: state.clock.nPlayers,
         masterTime: state.clock.master.time,
-        time1: state.clock.players[0].time,
-        time2: state.clock.players[1].time,
+        times: state.clock.players.map((player) => {return player.time}).join(","),
       })
     } else if (mutation.type === "room/setId") {
       console.log("room/setId")

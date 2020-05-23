@@ -1,8 +1,13 @@
 <template>
   <div class="">
-    <span v-for="player in players">{{player.displayTime}}</span>
-    <button type="button" v-on:click="changeTurn(1)" v-bind:disabled="pause || turn === 1">先手側のボタン</button>
-    <button type="button" v-on:click="changeTurn(0)" v-bind:disabled="pause || turn === 0">後手側のボタン</button>
+    <div v-for="(player, index) in currentPlayers">
+      <span>{{player.displayTime}}</span>
+      <button
+        type="button"
+        v-on:click="changeTurn(index + 1)"
+        v-bind:disabled="pause || (turn !== null && turn !== index)"
+      >プレイヤー{{index + 1}}のボタン</button>
+    </div>
     <button type="button" v-if="turn !== undefined && turn !== null" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     {{turn}}
     {{pause}}
@@ -13,8 +18,8 @@
       <InputSpinner
         v-model="master.nPlayers"
         v-bind:emit="emitNPlayers"
-        v-bind:max="2"
-        v-bind:min="1"
+        v-bind:max="8"
+        v-bind:min="2"
         label="人数"
       ></InputSpinner>
       <InputSpinner
@@ -32,7 +37,7 @@
       ></InputSpinner>
     </div>
     <hr>
-    <button type="button" v-bind:disabled="turn !== undefined && !pause && !zero" v-on:click="reset()">リセット</button>
+    <button type="button" v-bind:disabled="turn !== undefined && turn !== null && !pause && !zero" v-on:click="reset()">リセット</button>
   </div>
 </template>
 <script>
@@ -59,6 +64,9 @@ export default Vue.extend({
     zero: function() {
       return this.players[0].time === 0 ||
              this.players[1].time === 0
+    },
+    currentPlayers: function() {
+      return this.players.filter((player) => {return player.time})
     },
     ...mapState("clock", [
       //"playersTurn",
@@ -96,6 +104,9 @@ export default Vue.extend({
       if (this.turn === nextTurn) {
         return
       }
+      if (nextTurn >= this.currentPlayers.length) {
+        nextTurn = 0
+      }
       //if (this.pause) {
       //  this.togglePause()
       //}
@@ -118,7 +129,7 @@ export default Vue.extend({
       if (this.turn !== undefined && this.turn !== null && this.pause === false) {
         //console.log("step: " + timestamp)
         this.subtotal += timestamp - this.performanceNow
-        //console.log("subtotal: " + this.subtotal)
+        console.log("subtotal: " + this.subtotal)
         if (this.subtotal >= 100) {
           const rem = this.subtotal % 100
           this.$store.commit("clock/decreaseTime", {

@@ -28,6 +28,9 @@ export const mutations = {
       return
     }
     console.log(payload.diff)
+    if (!state.players[state.turn]) {
+      return
+    }
     state.players[state.turn].time -= payload.diff
     if (state.players[state.turn].time < 0) {
       state.players[state.turn].time = 0
@@ -35,6 +38,7 @@ export const mutations = {
   },
   updateDisplayTimes(state) {
     console.log("updateDisplaythTimes")
+    console.log(state.players)
     state.players.forEach((player) => {
       console.log(player)
       if (player && player.time) {
@@ -91,7 +95,7 @@ export const mutations = {
     console.log("update")
     console.log(payload)
     if ("turn" in payload) {
-      if (typeof payload.turn === "number") {
+      if (typeof parseInt(payload.turn) === "number") {
         state.turn = parseInt(payload.turn)
         console.log(state.turn)
       } else {
@@ -115,11 +119,20 @@ export const mutations = {
       //}
       //console.log(state.players)
     }
-    if ("time1" in payload) {
-      state.players[0].time = payload.time1
-    }
-    if ("time2" in payload) {
-      state.players[1].time = payload.time2
+    if (("times" in payload) && payload.times) {
+      const times = payload.times.split(",")
+      if (times.length !== state.players.length) {
+        state.players = []
+        for (let i = 0, ren = times.length; i < ren; i++) {
+          state.players.push({
+            time: state.master.time * 60 * 1000,
+            countdown: state.master.countdown * 1000,
+          })
+        }
+      }
+      for (let i = 0; i < times.length; i++) {
+        state.players[i].time = parseInt(times[i])
+      }
     }
   },
 }
