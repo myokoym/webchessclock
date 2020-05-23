@@ -103,7 +103,13 @@ export const mutations = {
       }
     }
     if ("pause" in payload) {
-      state.pause = payload.pause
+      if (payload.pause === "false") {
+        state.pause = false
+      } else if (payload.pause === "true") {
+        state.pause = true
+      } else {
+        state.pause = payload.pause
+      }
     }
     if ("masterTime" in payload) {
       state.master.time = parseInt(payload.masterTime)
