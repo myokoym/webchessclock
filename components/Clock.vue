@@ -11,7 +11,7 @@
     <hr>
     <div class="d-flex justify-content-around align-items-center">
       <InputSpinner
-        v-model="nPlayers"
+        v-model="master.nPlayers"
         v-bind:emit="emitNPlayers"
         v-bind:max="2"
         v-bind:min="1"
@@ -62,7 +62,6 @@ export default Vue.extend({
     },
     ...mapState("clock", [
       //"playersTurn",
-      "nPlayers",
       "players",
       "master",
       "pause",

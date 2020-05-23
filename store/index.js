@@ -23,7 +23,7 @@ const webSocketPlugin = (store) => {
     } else if (mutation.type === "clock/emitNPlayers") {
       socket.emit("send", {
         roomId: state.room.id,
-        nPlayers: state.clock.nPlayers,
+        nPlayers: state.clock.master.nPlayers,
       })
     } else if (mutation.type === "clock/emitMasterTime") {
       socket.emit("send", {

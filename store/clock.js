@@ -13,8 +13,8 @@ export const state = () => ({
       countdown: 0,
     },
   ],
-  nPlayers: 2,
   master: {
+    nPlayers: 2,
     time: 0,
     countdown: 0,
   },
@@ -69,7 +69,7 @@ export const mutations = {
     console.log("reset")
     state.turn = null
     state.players = []
-    for (let i = 0; i < state.nPlayers; i++) {
+    for (let i = 0; i < state.master.nPlayers; i++) {
       state.players.push({
         time: state.master.time * 60 * 1000,
         countdown: state.master.countdown * 1000,
@@ -79,7 +79,7 @@ export const mutations = {
   },
   emitNPlayers(state, payload) {
     console.log("emitNP")
-    state.nPlayers = payload.nPlayers
+    state.master.nPlayers = payload.nPlayers
   },
   emitMasterTime(state, payload) {
     state.master.time = payload.masterTime
@@ -105,15 +105,15 @@ export const mutations = {
       state.master.time = parseInt(payload.masterTime)
     }
     if ("nPlayers" in payload) {
-      state.nPlayers = parseInt(payload.nPlayers)
-      state.players = []
-      console.log(payload)
-      for (let i = 0; i < state.nPlayers; i++) {
-        state.players.push({
-          time: payload["time" + (i + 1)],
-        })
-      }
-      console.log(state.players)
+      state.master.nPlayers = parseInt(payload.nPlayers)
+      //state.players = []
+      //console.log(payload)
+      //for (let i = 0; i < state.master.nPlayers; i++) {
+      //  state.players.push({
+      //    time: payload["time" + (i + 1)],
+      //  })
+      //}
+      //console.log(state.players)
     }
     if ("time1" in payload) {
       state.players[0].time = payload.time1
