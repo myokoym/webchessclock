@@ -1,9 +1,9 @@
 <template>
   <div class="">
-    対局時計: {{players[0].displayTime}} : {{players[1].displayTime}}
+    <span v-for="player in players">{{player.displayTime}}</span>
     <button type="button" v-on:click="changeTurn(1)" v-bind:disabled="pause || turn === 1">先手側のボタン</button>
     <button type="button" v-on:click="changeTurn(0)" v-bind:disabled="pause || turn === 0">後手側のボタン</button>
-    <button type="button" v-if="turn !== undefined" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
+    <button type="button" v-if="turn !== undefined && turn !== null" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     {{turn}}
     {{pause}}
     {{players}}
@@ -116,7 +116,7 @@ export default Vue.extend({
     //  this.requestID = undefined
     //},
     step(timestamp) {
-      if (this.turn !== undefined && this.pause === false) {
+      if (this.turn !== undefined && this.turn !== null && this.pause === false) {
         //console.log("step: " + timestamp)
         this.subtotal += timestamp - this.performanceNow
         //console.log("subtotal: " + this.subtotal)
