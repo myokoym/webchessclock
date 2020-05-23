@@ -50,14 +50,6 @@ export default Vue.extend({
     InputSpinner,
   },
   computed: {
-    displayTime1: function() {
-      console.log("displayTime1")
-      console.log(this.players[0].time)
-      return this.displayTime(this.players[0].time)
-    },
-    displayTime2: function() {
-      return this.displayTime(this.players[1].time)
-    },
     turn: function() {
       return this.$store.state.clock.turn
     },
@@ -80,7 +72,6 @@ export default Vue.extend({
       performanceNow: undefined,
       requestID: undefined,
       subtotal: 0,
-      displayTimes: ["0:00", "0:00"],
     }
   },
   created() {
@@ -129,7 +120,7 @@ export default Vue.extend({
       if (this.turn !== undefined && this.turn !== null && this.pause === false) {
         //console.log("step: " + timestamp)
         this.subtotal += timestamp - this.performanceNow
-        console.log("subtotal: " + this.subtotal)
+        //console.log("subtotal: " + this.subtotal)
         if (this.subtotal >= 100) {
           const rem = this.subtotal % 100
           this.$store.commit("clock/decreaseTime", {
