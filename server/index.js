@@ -63,7 +63,7 @@ function socketStart(server) {
         "times",
       ], function(err, result) {
         console.log(result)
-        io.to(roomId).emit("update", {
+        io.to(socket.id).emit("update", {
           turn: result[0],
           pause: result[1],
           nPlayers: result[2],
