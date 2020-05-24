@@ -17,6 +17,7 @@ export const state = () => ({
     nPlayers: 2,
     time: 0,
     countdown: 0,
+    additional: 0,
   },
 })
 
@@ -69,6 +70,10 @@ export const mutations = {
     if (state.turn === nextTurn) {
       return
     }
+    if (!(state.turn === undefined || state.turn === null || state.turn === NaN) &&
+        state.master.additional) {
+      state.players[state.turn].time += state.master.additional * 1000
+    }
     state.turn = nextTurn
     if (state.master.countdown) {
       state.players[state.turn].countdown = state.master.countdown * 1000
@@ -102,7 +107,10 @@ export const mutations = {
     state.master.time = payload.masterTime
   },
   emitMasterCountdown(state, payload) {
-    state.master.countdown = payload.countdown
+    state.master.countdown = payload.masterCountdown
+  },
+  emitMasterAdditional(state, payload) {
+    state.master.additional = payload.masterAdditional
   },
   update(state, payload) {
     console.log("update")
@@ -134,6 +142,12 @@ export const mutations = {
       state.master.countdown = parseInt(payload.masterCountdown)
       if (!state.master.countdown) {
         state.master.countdown = 0
+      }
+    }
+    if ("masterAdditional" in payload) {
+      state.master.additional = parseInt(payload.masterAdditional)
+      if (!state.master.additional) {
+        state.master.additional = 0
       }
     }
     if ("nPlayers" in payload) {

@@ -36,6 +36,13 @@
         v-bind:min="0"
         label="秒読み（秒）"
       ></InputSpinner>
+      <InputSpinner
+        v-model="master.additional"
+        v-bind:emit="emitMasterAdditional"
+        v-bind:max="300"
+        v-bind:min="0"
+        label="追加時間（秒）"
+      ></InputSpinner>
     </div>
     <hr>
     <button type="button" v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause && !zero" v-on:click="reset()">リセット</button>
@@ -151,7 +158,10 @@ export default Vue.extend({
       this.$store.commit("clock/emitMasterTime", {masterTime: newValue})
     },
     emitMasterCountdown: function(newValue) {
-      this.$store.commit("clock/emitMasterCountdown", {countdown: newValue})
+      this.$store.commit("clock/emitMasterCountdown", {masterCountdown: newValue})
+    },
+    emitMasterAdditional: function(newValue) {
+      this.$store.commit("clock/emitMasterAdditional", {masterAdditional: newValue})
     },
   }
 })

@@ -60,6 +60,7 @@ function socketStart(server) {
         "nPlayers",
         "masterTime",
         "masterCountdown",
+        "masterAdditional",
         "times",
         "countdowns",
       ], function(err, result) {
@@ -70,8 +71,9 @@ function socketStart(server) {
           nPlayers: result[2],
           masterTime: result[3],
           masterCountdown: result[4],
-          times: result[5],
-          countdowns: result[6],
+          masterAdditional: result[5],
+          times: result[6],
+          countdowns: result[7],
         })
       })
     })
@@ -96,6 +98,9 @@ function socketStart(server) {
       }
       if ("masterCountdown" in params) {
         redis.hset(roomId, "masterCountdown", params.masterCountdown)
+      }
+      if ("masterAdditional" in params) {
+        redis.hset(roomId, "masterAdditional", params.masterAdditional)
       }
       if ("times" in params) {
         redis.hset(roomId, "times", params.times)

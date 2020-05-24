@@ -54,6 +54,11 @@ const webSocketPlugin = (store) => {
         roomId: state.room.id,
         masterCountdown: state.clock.master.countdown,
       })
+    } else if (mutation.type === "clock/emitMasterAdditional") {
+      socket.emit("send", {
+        roomId: state.room.id,
+        masterAdditional: state.clock.master.additional,
+      })
     } else if (mutation.type === "clock/reset") {
       socket.emit("send", {
         roomId: state.room.id,
@@ -62,6 +67,7 @@ const webSocketPlugin = (store) => {
         nPlayers: state.clock.nPlayers,
         masterTime: state.clock.master.time,
         masterCountdown: state.clock.master.countdown,
+        masterAdditional: state.clock.master.additional,
         times: state.clock.players.map((player) => {return player.time}).join(","),
         countdowns: state.clock.players.map((player) => {return player.countdown}).join(","),
       })
