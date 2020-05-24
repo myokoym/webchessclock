@@ -23,11 +23,11 @@ export const state = () => ({
 export const mutations = {
   decreaseTime(state, payload) {
     console.log("decreaseTime")
-    console.log(state.turn)
-    if (state.turn === undefined || state.turn === null) {
+    //console.log(state.turn)
+    if (state.turn === undefined || state.turn === null || state.turn === NaN) {
       return
     }
-    console.log(payload.diff)
+    //console.log(payload.diff)
     if (!state.players[state.turn]) {
       return
     }
@@ -95,7 +95,7 @@ export const mutations = {
     console.log("update")
     console.log(payload)
     if ("turn" in payload) {
-      if (typeof parseInt(payload.turn) === "number") {
+      if (payload.turn !== undefined && payload.turn !== null) {
         state.turn = parseInt(payload.turn)
         console.log(state.turn)
       } else {

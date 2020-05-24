@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <div v-for="(player, index) in currentPlayers">
+    <div v-for="(player, index) in players">
       <span>{{player.displayTime}}</span>
       <button
         type="button"
@@ -8,10 +8,10 @@
         v-bind:disabled="pause || (turn !== null && turn !== index)"
       >プレイヤー{{index + 1}}のボタン</button>
     </div>
-    <button type="button" v-if="turn !== undefined && turn !== null" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
+    <button type="button" v-if="turn !== undefined && turn !== null && turn !== NaN" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     {{turn}}
     {{pause}}
-    {{players}}
+    {{players.length}}
     {{master}}
     <hr>
     <div class="d-flex justify-content-around align-items-center">
@@ -37,7 +37,7 @@
       ></InputSpinner>
     </div>
     <hr>
-    <button type="button" v-bind:disabled="turn !== undefined && turn !== null && !pause && !zero" v-on:click="reset()">リセット</button>
+    <button type="button" v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause && !zero" v-on:click="reset()">リセット</button>
   </div>
 </template>
 <script>
@@ -56,9 +56,6 @@ export default Vue.extend({
     zero: function() {
       return this.players[0].time === 0 ||
              this.players[1].time === 0
-    },
-    currentPlayers: function() {
-      return this.players.filter((player) => {return player.time})
     },
     ...mapState("clock", [
       //"playersTurn",
@@ -95,7 +92,7 @@ export default Vue.extend({
       if (this.turn === nextTurn) {
         return
       }
-      if (nextTurn >= this.currentPlayers.length) {
+      if (nextTurn >= this.players.length) {
         nextTurn = 0
       }
       //if (this.pause) {
@@ -117,7 +114,7 @@ export default Vue.extend({
     //  this.requestID = undefined
     //},
     step(timestamp) {
-      if (this.turn !== undefined && this.turn !== null && this.pause === false) {
+      if (this.turn !== undefined && this.turn !== null && this.turn !== NaN && this.pause === false) {
         //console.log("step: " + timestamp)
         this.subtotal += timestamp - this.performanceNow
         //console.log("subtotal: " + this.subtotal)
