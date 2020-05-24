@@ -4,6 +4,25 @@ const webSocketPlugin = (store) => {
   const socket = io()
 
   store.subscribe((mutation, state) => {
+    if (mutation.type === "clock/update" ||
+        mutation.type === "clock/decreaseTime" ||
+        mutation.type === "clock/reset") {
+      store.commit("clock/updateDisplayTimes")
+    } else if (mutation.type === "room/setId") {
+      console.log("room/setId")
+      const id = mutation.payload.id
+      socket.on("update", (params) => {
+        console.log("update")
+        console.log(params)
+        store.commit("clock/update", params)
+      })
+      socket.emit("enterRoom", id)
+    }
+
+    //if (!state.readySend) {
+    //  return
+    //}
+
     if (mutation.type === "clock/changeTurn") {
       console.log(state.clock.players)
       socket.emit("send", {
@@ -37,20 +56,6 @@ const webSocketPlugin = (store) => {
         masterTime: state.clock.master.time,
         times: state.clock.players.map((player) => {return player.time}).join(","),
       })
-    } else if (mutation.type === "room/setId") {
-      console.log("room/setId")
-      const id = mutation.payload.id
-      socket.on("update", (params) => {
-        console.log("update")
-        console.log(params)
-        store.commit("clock/update", params)
-      })
-      socket.emit("enterRoom", id)
-    }
-    if (mutation.type === "clock/update" ||
-        mutation.type === "clock/decreaseTime" ||
-        mutation.type === "clock/reset") {
-      store.commit("clock/updateDisplayTimes")
     }
   })
 }
