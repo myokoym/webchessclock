@@ -11,7 +11,7 @@
     <button type="button" v-if="turn !== undefined && turn !== null && turn !== NaN" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
     {{turn}}
     {{pause}}
-    {{players.length}}
+    {{players}}
     {{master}}
     <hr>
     <div class="d-flex justify-content-around align-items-center">
@@ -31,6 +31,7 @@
       ></InputSpinner>
       <InputSpinner
         v-model="master.countdown"
+        v-bind:emit="emitMasterCountdown"
         v-bind:max="300"
         v-bind:min="0"
         label="秒読み（秒）"
@@ -115,6 +116,8 @@ export default Vue.extend({
     //},
     step(timestamp) {
       if (this.turn !== undefined && this.turn !== null && this.turn !== NaN && this.pause === false) {
+        //console.log(new Date(timestamp))
+        //console.log(new Date(this.performanceNow))
         //console.log("step: " + timestamp)
         this.subtotal += timestamp - this.performanceNow
         //console.log("subtotal: " + this.subtotal)
@@ -146,6 +149,9 @@ export default Vue.extend({
     },
     emitMasterTime: function(newValue) {
       this.$store.commit("clock/emitMasterTime", {masterTime: newValue})
+    },
+    emitMasterCountdown: function(newValue) {
+      this.$store.commit("clock/emitMasterCountdown", {countdown: newValue})
     },
   }
 })

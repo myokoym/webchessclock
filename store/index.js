@@ -29,6 +29,7 @@ const webSocketPlugin = (store) => {
         roomId: state.room.id,
         turn: state.clock.turn,
         times: state.clock.players.map((player) => {return player.time}).join(","),
+        countdowns: state.clock.players.map((player) => {return player.countdown}).join(","),
       })
     } else if (mutation.type === "clock/pause" ||
                mutation.type === "clock/cancelPause") {
@@ -36,6 +37,7 @@ const webSocketPlugin = (store) => {
         roomId: state.room.id,
         pause: state.clock.pause,
         times: state.clock.players.map((player) => {return player.time}).join(","),
+        countdowns: state.clock.players.map((player) => {return player.countdown}).join(","),
       })
     } else if (mutation.type === "clock/emitNPlayers") {
       socket.emit("send", {
@@ -47,6 +49,11 @@ const webSocketPlugin = (store) => {
         roomId: state.room.id,
         masterTime: state.clock.master.time,
       })
+    } else if (mutation.type === "clock/emitMasterCountdown") {
+      socket.emit("send", {
+        roomId: state.room.id,
+        masterCountdown: state.clock.master.countdown,
+      })
     } else if (mutation.type === "clock/reset") {
       socket.emit("send", {
         roomId: state.room.id,
@@ -54,7 +61,9 @@ const webSocketPlugin = (store) => {
         pause: state.clock.pause,
         nPlayers: state.clock.nPlayers,
         masterTime: state.clock.master.time,
+        masterCountdown: state.clock.master.countdown,
         times: state.clock.players.map((player) => {return player.time}).join(","),
+        countdowns: state.clock.players.map((player) => {return player.countdown}).join(","),
       })
     }
   })

@@ -31,9 +31,16 @@ export const mutations = {
     if (!state.players[state.turn]) {
       return
     }
-    state.players[state.turn].time -= payload.diff
-    if (state.players[state.turn].time < 0) {
-      state.players[state.turn].time = 0
+    if (state.players[state.turn].time === 0) {
+      state.players[state.turn].countdown -= payload.diff
+      if (state.players[state.turn].countdown < 0) {
+        state.players[state.turn].countdown = 0
+      }
+    } else {
+      state.players[state.turn].time -= payload.diff
+      if (state.players[state.turn].time < 0) {
+        state.players[state.turn].time = 0
+      }
     }
   },
   updateDisplayTimes(state) {
@@ -49,8 +56,11 @@ export const mutations = {
           sec = "0" + sec
         }
         player.displayTime = min + ":" + sec
+      } else if (player && player.countdown) {
+        const sec = Math.floor(player.countdown / 1000)
+        player.displayTime = String(sec)
       } else {
-        player.displayTime = "0:00"
+        player.displayTime = "0"
       }
     })
   },
@@ -60,6 +70,9 @@ export const mutations = {
       return
     }
     state.turn = nextTurn
+    if (state.master.countdown) {
+      state.players[state.turn].countdown = state.master.countdown * 1000
+    }
   },
   pause(state) {
     state.pause = true
@@ -89,7 +102,7 @@ export const mutations = {
     state.master.time = payload.masterTime
   },
   emitMasterCountdown(state, payload) {
-    //state.master.countdown = payload
+    state.master.countdown = payload.countdown
   },
   update(state, payload) {
     console.log("update")
@@ -113,6 +126,15 @@ export const mutations = {
     }
     if ("masterTime" in payload) {
       state.master.time = parseInt(payload.masterTime)
+      if (!state.master.time) {
+        state.master.time = 0
+      }
+    }
+    if ("masterCountdown" in payload) {
+      state.master.countdown = parseInt(payload.masterCountdown)
+      if (!state.master.countdown) {
+        state.master.countdown = 0
+      }
     }
     if ("nPlayers" in payload) {
       state.master.nPlayers = parseInt(payload.nPlayers)
@@ -138,6 +160,12 @@ export const mutations = {
       }
       for (let i = 0; i < times.length; i++) {
         state.players[i].time = parseInt(times[i])
+      }
+    }
+    if (("countdowns" in payload) && payload.times) {
+      const countdowns = payload.countdowns.split(",")
+      for (let i = 0; i < countdowns.length; i++) {
+        state.players[i].countdown = parseInt(countdowns[i])
       }
     }
   },
