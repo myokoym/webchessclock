@@ -24,16 +24,17 @@
       v-on:click="togglePause()"
     >{{pause ? "　再開　" : "一時停止"}}</button>
     <hr>
-    <h4>設定</h4>
-    <div class="d-flex justify-content-around align-items-center">
+    <div class="d-flex justify-content-around">
       <InputSpinner
+        class="mx-1"
         v-model="master.nPlayers"
         v-bind:emit="emitNPlayers"
         v-bind:max="8"
         v-bind:min="2"
-        label="人数"
+        label="プレイヤー人数"
       ></InputSpinner>
       <InputSpinner
+        class="mx-1"
         v-model="master.time"
         v-bind:emit="emitMasterTime"
         v-bind:max="540"
@@ -41,6 +42,7 @@
         label="持ち時間（分）"
       ></InputSpinner>
       <InputSpinner
+        class="mx-1"
         v-model="master.countdown"
         v-bind:emit="emitMasterCountdown"
         v-bind:max="300"
@@ -48,11 +50,13 @@
         label="秒読み（秒）"
       ></InputSpinner>
       <InputSpinner
+        class="mx-1"
         v-model="master.additional"
         v-bind:emit="emitMasterAdditional"
         v-bind:max="300"
         v-bind:min="0"
         label="追加時間（秒）"
+        description="フィッシャーモード用"
       ></InputSpinner>
     </div>
     <button
