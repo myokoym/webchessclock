@@ -31,7 +31,7 @@
         class="mx-1"
         v-model="master.nPlayers"
         v-bind:emit="emitNPlayers"
-        v-bind:max="8"
+        v-bind:max="100"
         v-bind:min="2"
         label="プレイヤー人数"
       ></InputSpinner>
@@ -39,7 +39,7 @@
         class="mx-1"
         v-model="master.time"
         v-bind:emit="emitMasterTime"
-        v-bind:max="540"
+        v-bind:max="720"
         v-bind:min="0"
         label="持ち時間（分）"
       ></InputSpinner>
@@ -47,7 +47,7 @@
         class="mx-1"
         v-model="master.countdown"
         v-bind:emit="emitMasterCountdown"
-        v-bind:max="300"
+        v-bind:max="600"
         v-bind:min="0"
         label="秒読み（秒）"
       ></InputSpinner>
@@ -55,7 +55,7 @@
         class="mx-1"
         v-model="master.additional"
         v-bind:emit="emitMasterAdditional"
-        v-bind:max="300"
+        v-bind:max="600"
         v-bind:min="0"
         label="追加時間（秒）"
         description="フィッシャーモード用"
