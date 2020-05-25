@@ -38,7 +38,9 @@ export const mutations = {
         state.players[state.turn].countdown = 0
       }
     } else {
+      //console.log(state.players[state.turn])
       state.players[state.turn].time -= payload.diff
+      //console.log(state.players[state.turn])
       if (state.players[state.turn].time < 0) {
         state.players[state.turn].time = 0
       }
@@ -164,13 +166,16 @@ export const mutations = {
     if (("times" in payload) && payload.times) {
       const times = payload.times.split(",")
       if (times.length !== state.players.length) {
+        //Vue.set(state, "players", [])
         state.players = []
         for (let i = 0, ren = times.length; i < ren; i++) {
           state.players.push({
             time: state.master.time * 60 * 1000,
             countdown: state.master.countdown * 1000,
+            displayTime: "0:00",
           })
         }
+        //console.log(state.players)
       }
       for (let i = 0; i < times.length; i++) {
         state.players[i].time = parseInt(times[i])
