@@ -50,7 +50,7 @@ export const mutations = {
     state.players.forEach((player) => {
       // debug: console.log(player)
       if (player && player.time) {
-        const timeSecond = Math.floor(player.time / 1000)
+        const timeSecond = Math.ceil(player.time / 1000)
         const min = Math.floor(timeSecond / 60)
         let sec = timeSecond % 60
         if (sec < 10) {
@@ -58,7 +58,7 @@ export const mutations = {
         }
         player.displayTime = min + ":" + sec
       } else if (player && player.countdown) {
-        const sec = Math.floor(player.countdown / 1000)
+        const sec = Math.ceil(player.countdown / 1000)
         player.displayTime = String(sec)
       } else {
         player.displayTime = "0"
