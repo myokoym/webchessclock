@@ -54,7 +54,7 @@ function socketStart(server) {
       // debug: console.log("enterRoom id: " + id)
       roomId = id
       socket.join(roomId)
-      redis.hmget(roomId, [
+      const keys = [
         "turn",
         "pause",
         "nPlayers",
@@ -63,18 +63,16 @@ function socketStart(server) {
         "masterAdditional",
         "times",
         "countdowns",
-      ], function(err, result) {
+      ]
+      redis.hmget(roomId, keys, function(err, result) {
         // debug: console.log(result)
-        io.to(socket.id).emit("update", {
-          turn: result[0],
-          pause: result[1],
-          nPlayers: result[2],
-          masterTime: result[3],
-          masterCountdown: result[4],
-          masterAdditional: result[5],
-          times: result[6],
-          countdowns: result[7],
+        const params = {}
+        result.forEach((value, index) => {
+          if (value !== null) {
+            params[keys[index]] = value
+          }
         })
+        io.to(socket.id).emit("update", params)
       })
     })
     socket.on("send", (params) => {
