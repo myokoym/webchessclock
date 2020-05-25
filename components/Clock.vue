@@ -57,9 +57,10 @@
     </div>
     <button
       type="button"
+      class="my-2 btn btn-light btn-block"
       v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause"
       v-on:click="reset()"
-    >リセット</button>
+    >設定を反映して時計をリセット</button>
   </div>
 </template>
 <script>
