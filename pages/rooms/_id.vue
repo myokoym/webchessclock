@@ -20,13 +20,13 @@ export default Vue.extend({
     }
   },
   created() {
-    console.log(this.$route.params.id)
+    // debug: console.log(this.$route.params.id)
     if (!this.$route.params.id) {
       this.$router.replace("/")
       return
     }
     this.$store.commit("room/setId", {id: this.$route.params.id})
-    console.log(this.$store.state.room.id)
+    // debug: console.log(this.$store.state.room.id)
   },
 })
 </script>

@@ -23,7 +23,7 @@ export const state = () => ({
 
 export const mutations = {
   decreaseTime(state, payload) {
-    console.log("decreaseTime")
+    // debug: console.log("decreaseTime")
     //console.log(state.turn)
     if (state.turn === undefined || state.turn === null || state.turn === NaN) {
       return
@@ -45,10 +45,10 @@ export const mutations = {
     }
   },
   updateDisplayTimes(state) {
-    console.log("updateDisplaythTimes")
-    console.log(state.players)
+    // debug: console.log("updateDisplaythTimes")
+    // debug: console.log(state.players)
     state.players.forEach((player) => {
-      console.log(player)
+      // debug: console.log(player)
       if (player && player.time) {
         const timeSecond = Math.floor(player.time / 1000)
         const min = Math.floor(timeSecond / 60)
@@ -88,7 +88,7 @@ export const mutations = {
   init(state) {
   },
   reset(state) {
-    console.log("reset")
+    // debug: console.log("reset")
     state.turn = null
     state.players = []
     for (let i = 0; i < state.master.nPlayers; i++) {
@@ -100,7 +100,7 @@ export const mutations = {
     state.pause = false
   },
   emitNPlayers(state, payload) {
-    console.log("emitNP")
+    // debug: console.log("emitNP")
     state.master.nPlayers = payload.nPlayers
   },
   emitMasterTime(state, payload) {
@@ -113,12 +113,12 @@ export const mutations = {
     state.master.additional = payload.masterAdditional
   },
   update(state, payload) {
-    console.log("update")
-    console.log(payload)
+    // debug: console.log("update")
+    // debug: console.log(payload)
     if ("turn" in payload) {
       if (payload.turn !== undefined && payload.turn !== null) {
         state.turn = parseInt(payload.turn)
-        console.log(state.turn)
+        // debug: console.log(state.turn)
       } else {
         state.turn = payload.turn
       }

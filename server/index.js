@@ -33,7 +33,7 @@ async function start () {
   })
 
   socketStart(server)
-  console.log("Socket.IO starts")
+  // debug: console.log("Socket.IO starts")
 }
 
 const Redis = require('ioredis');
@@ -51,7 +51,7 @@ function socketStart(server) {
   io.on("connection", (socket) => {
     let roomId = ""
     socket.on("enterRoom", (id) => {
-      console.log("enterRoom id: " + id)
+      // debug: console.log("enterRoom id: " + id)
       roomId = id
       socket.join(roomId)
       redis.hmget(roomId, [
@@ -64,7 +64,7 @@ function socketStart(server) {
         "times",
         "countdowns",
       ], function(err, result) {
-        console.log(result)
+        // debug: console.log(result)
         io.to(socket.id).emit("update", {
           turn: result[0],
           pause: result[1],
@@ -78,8 +78,8 @@ function socketStart(server) {
       })
     })
     socket.on("send", (params) => {
-      console.log("send")
-      console.log(params)
+      // debug: console.log("send")
+      // debug: console.log(params)
       if (!roomId) {
         roomId = params.roomId
         socket.join(roomId)

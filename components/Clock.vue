@@ -151,7 +151,7 @@ export default Vue.extend({
       this.$store.commit("clock/reset")
     },
     emitNPlayers: function(newValue) {
-      console.log("emitNPlayers: " + newValue)
+      // debug: console.log("emitNPlayers: " + newValue)
       this.$store.commit("clock/emitNPlayers", {nPlayers: newValue})
     },
     emitMasterTime: function(newValue) {

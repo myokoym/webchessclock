@@ -9,11 +9,11 @@ const webSocketPlugin = (store) => {
         mutation.type === "clock/reset") {
       store.commit("clock/updateDisplayTimes")
     } else if (mutation.type === "room/setId") {
-      console.log("room/setId")
+      // debug: console.log("room/setId")
       const id = mutation.payload.id
       socket.on("update", (params) => {
-        console.log("update")
-        console.log(params)
+        // debug: console.log("update")
+        // debug: console.log(params)
         store.commit("clock/update", params)
       })
       socket.emit("enterRoom", id)
@@ -24,7 +24,7 @@ const webSocketPlugin = (store) => {
     //}
 
     if (mutation.type === "clock/changeTurn") {
-      console.log(state.clock.players)
+      // debug: console.log(state.clock.players)
       socket.emit("send", {
         roomId: state.room.id,
         turn: state.clock.turn,
