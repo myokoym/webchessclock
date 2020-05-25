@@ -3,19 +3,19 @@ export const state = () => ({
   pause: false,
   players: [
     {
-      time: 0,
-      displayTime: "0:00",
+      time: 5 * 60 * 1000,
+      displayTime: "5:00",
       countdown: 0,
     },
     {
-      time: 0,
-      displayTime: "0:00",
+      time: 5 * 60 * 1000,
+      displayTime: "5:00",
       countdown: 0,
     },
   ],
   master: {
     nPlayers: 2,
-    time: 0,
+    time: 5,
     countdown: 0,
     additional: 0,
   },
