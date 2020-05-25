@@ -1,7 +1,7 @@
 <template>
   <div class="">
-    <div class="d-flex flex-row flex-wrap">
-      <div class="mt-3 mr-3 d-flex flex-column" v-for="(player, index) in players">
+    <div class="d-flex flex-row flex-wrap justify-content-around">
+      <div class="mt-3 mx-2 d-flex flex-column" v-for="(player, index) in players">
         <input
           type="text"
           class="form-control text-center font-weight-bold"
@@ -17,12 +17,14 @@
       </div>
     </div>
     <hr>
-    <button
-      type="button"
-      class="btn btn-light"
-      v-bind:disabled="turn === undefined || turn === null || turn === NaN"
-      v-on:click="togglePause()"
-    >{{pause ? "　再開　" : "一時停止"}}</button>
+    <div class="d-flex flex-row justify-content-center">
+      <button
+        type="button"
+        class="btn btn-light"
+        v-bind:disabled="turn === undefined || turn === null || turn === NaN"
+        v-on:click="togglePause()"
+      >{{pause ? "　再開　" : "一時停止"}}</button>
+    </div>
     <hr>
     <div class="d-flex justify-content-around">
       <InputSpinner
