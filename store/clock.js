@@ -97,6 +97,7 @@ export const mutations = {
       state.players.push({
         time: state.master.time * 60 * 1000,
         countdown: state.master.countdown * 1000,
+        displayTime: "0:00",
       })
     }
     state.pause = false
