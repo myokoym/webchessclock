@@ -1,19 +1,30 @@
 <template>
   <div class="">
-    <div v-for="(player, index) in players">
-      <span>{{player.displayTime}}</span>
-      <button
-        type="button"
-        v-on:click="changeTurn(index + 1)"
-        v-bind:disabled="pause || (turn !== null && turn !== index)"
-      >プレイヤー{{index + 1}}のボタン</button>
+    <div class="d-flex flex-row flex-wrap">
+      <div class="mt-3 mr-3 d-flex flex-column" v-for="(player, index) in players">
+        <input
+          type="text"
+          class="form-control text-center font-weight-bold"
+          size="5"
+          v-bind:value="player.displayTime"
+          readonly>
+        <button
+          type="button"
+          class="btn btn-primary"
+          v-on:click="changeTurn(index + 1)"
+          v-bind:disabled="pause || (turn !== null && turn !== index)"
+        >プレイヤー{{index + 1}}</button>
+      </div>
     </div>
-    <button type="button" v-if="turn !== undefined && turn !== null && turn !== NaN" v-on:click="togglePause()">{{pause ? "再開" : "一時停止"}}</button>
-    {{turn}}
-    {{pause}}
-    {{players}}
-    {{master}}
     <hr>
+    <button
+      type="button"
+      class="btn btn-light"
+      v-bind:disabled="turn === undefined || turn === null || turn === NaN"
+      v-on:click="togglePause()"
+    >{{pause ? "　再開　" : "一時停止"}}</button>
+    <hr>
+    <h4>設定</h4>
     <div class="d-flex justify-content-around align-items-center">
       <InputSpinner
         v-model="master.nPlayers"
@@ -44,8 +55,11 @@
         label="追加時間（秒）"
       ></InputSpinner>
     </div>
-    <hr>
-    <button type="button" v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause && !zero" v-on:click="reset()">リセット</button>
+    <button
+      type="button"
+      v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause && !zero"
+      v-on:click="reset()"
+    >リセット</button>
   </div>
 </template>
 <script>

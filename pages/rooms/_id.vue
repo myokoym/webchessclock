@@ -1,8 +1,6 @@
 <template>
-  <div class="row">
-    <div class="col-xl-8 container">
-      <Clock></Clock>
-    </div>
+  <div class="container">
+    <Clock></Clock>
   </div>
 </template>
 
