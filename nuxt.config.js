@@ -9,7 +9,7 @@ module.exports = {
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'リアルタイムで同期する対局時計（チェスクロック）をインターネット経由で複数人が自由に操作できるWebアプリ。自由対局や研究会などに。スマートフォン、タブレット対応（レスポンシブ）。' },
+      { hid: 'description', name: 'description', content: 'リアルタイムで同期する対局時計（チェスクロック）をインターネット経由で複数人が操作できるWebアプリ。最大100人まで対応、秒読み対応、フィッシャーモード対応。' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
