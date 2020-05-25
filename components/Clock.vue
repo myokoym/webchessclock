@@ -57,7 +57,7 @@
     </div>
     <button
       type="button"
-      v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause && !zero"
+      v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause"
       v-on:click="reset()"
     >リセット</button>
   </div>
@@ -74,10 +74,6 @@ export default Vue.extend({
   computed: {
     turn: function() {
       return this.$store.state.clock.turn
-    },
-    zero: function() {
-      return this.players[0].time === 0 ||
-             this.players[1].time === 0
     },
     ...mapState("clock", [
       //"playersTurn",
