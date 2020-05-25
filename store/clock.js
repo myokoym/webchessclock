@@ -36,6 +36,7 @@ export const mutations = {
       state.players[state.turn].countdown -= payload.diff
       if (state.players[state.turn].countdown < 0) {
         state.players[state.turn].countdown = 0
+        state.pause = true
       }
     } else {
       //console.log(state.players[state.turn])
@@ -43,6 +44,9 @@ export const mutations = {
       //console.log(state.players[state.turn])
       if (state.players[state.turn].time < 0) {
         state.players[state.turn].time = 0
+        if (state.players[state.turn].time === 0) {
+          state.pause = true
+        }
       }
     }
   },
