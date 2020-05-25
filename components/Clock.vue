@@ -62,7 +62,7 @@
     <button
       type="button"
       class="my-2 btn btn-light btn-block"
-      v-bind:disabled="turn !== undefined && turn !== null && turn !== NaN && !pause"
+      v-bind:disabled="turn !== undefined && turn !== null && !isNaN(turn) && !pause"
       v-on:click="reset()"
     >時計をリセット / 設定を反映</button>
   </div>
@@ -137,7 +137,7 @@ export default Vue.extend({
     //  this.requestID = undefined
     //},
     step(timestamp) {
-      if (this.turn !== undefined && this.turn !== null && this.turn !== NaN && this.pause === false) {
+      if (this.turn !== undefined && this.turn !== null && !isNaN(this.turn) && this.pause === false) {
         //console.log(new Date(timestamp))
         //console.log(new Date(this.performanceNow))
         //console.log("step: " + timestamp)

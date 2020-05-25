@@ -25,7 +25,7 @@ export const mutations = {
   decreaseTime(state, payload) {
     // debug: console.log("decreaseTime")
     //console.log(state.turn)
-    if (state.turn === undefined || state.turn === null || state.turn === NaN) {
+    if (state.turn === undefined || state.turn === null || isNaN(state.turn)) {
       return
     }
     //console.log(payload.diff)
@@ -76,7 +76,7 @@ export const mutations = {
     if (state.turn === nextTurn) {
       return
     }
-    if (!(state.turn === undefined || state.turn === null || state.turn === NaN) &&
+    if (!(state.turn === undefined || state.turn === null || isNaN(state.turn)) &&
         state.master.additional) {
       state.players[state.turn].time += state.master.additional * 1000
     }
