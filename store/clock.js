@@ -119,10 +119,14 @@ export const mutations = {
     // debug: console.log(payload)
     if ("turn" in payload) {
       if (payload.turn !== undefined && payload.turn !== null) {
+        // debug: console.log(payload.turn)
         state.turn = parseInt(payload.turn)
-        // debug: console.log(state.turn)
+        // debug: console.log(payload.turn)
       } else {
         state.turn = payload.turn
+      }
+      if (isNaN(state.turn)) {
+        state.turn = null
       }
     }
     if ("pause" in payload) {

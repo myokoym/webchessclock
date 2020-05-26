@@ -21,7 +21,7 @@
       <button
         type="button"
         class="btn btn-light"
-        v-bind:disabled="turn === undefined || turn === null || turn === NaN"
+        v-bind:disabled="turn === undefined || turn === null || isNaN(turn)"
         v-on:click="togglePause()"
       >{{pause ? "　再開　" : "一時停止"}}</button>
     </div>
