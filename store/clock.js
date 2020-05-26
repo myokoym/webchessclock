@@ -102,18 +102,17 @@ export const mutations = {
     }
     state.pause = false
   },
-  emitNPlayers(state, payload) {
-    // debug: console.log("emitNP")
-    state.master.nPlayers = payload.nPlayers
+  setNPlayers(state, payload) {
+    state.master.nPlayers = payload
   },
-  emitMasterTime(state, payload) {
-    state.master.time = payload.masterTime
+  setMasterTime(state, payload) {
+    state.master.time = payload
   },
-  emitMasterCountdown(state, payload) {
-    state.master.countdown = payload.masterCountdown
+  setMasterCountdown(state, payload) {
+    state.master.countdown = payload
   },
-  emitMasterAdditional(state, payload) {
-    state.master.additional = payload.masterAdditional
+  setMasterAdditional(state, payload) {
+    state.master.additional = payload
   },
   update(state, payload) {
     // debug: console.log("update")

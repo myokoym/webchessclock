@@ -44,27 +44,28 @@ const webSocketPlugin = (store) => {
         roomId: state.room.id,
         nPlayers: state.clock.master.nPlayers,
       })
-    } else if (mutation.type === "clock/emitMasterTime") {
-      socket.emit("send", {
-        roomId: state.room.id,
-        masterTime: state.clock.master.time,
-      })
-    } else if (mutation.type === "clock/emitMasterCountdown") {
-      socket.emit("send", {
-        roomId: state.room.id,
-        masterCountdown: state.clock.master.countdown,
-      })
-    } else if (mutation.type === "clock/emitMasterAdditional") {
-      socket.emit("send", {
-        roomId: state.room.id,
-        masterAdditional: state.clock.master.additional,
-      })
+    //} else if (mutation.type === "clock/emitMasterTime") {
+    //  socket.emit("send", {
+    //    roomId: state.room.id,
+    //    masterTime: state.clock.master.time,
+    //  })
+    //} else if (mutation.type === "clock/emitMasterCountdown") {
+    //  socket.emit("send", {
+    //    roomId: state.room.id,
+    //    masterCountdown: state.clock.master.countdown,
+    //  })
+    //} else if (mutation.type === "clock/emitMasterAdditional") {
+    //  socket.emit("send", {
+    //    roomId: state.room.id,
+    //    masterAdditional: state.clock.master.additional,
+    //  })
     } else if (mutation.type === "clock/reset") {
+      // debug: console.log(state.clock)
       socket.emit("send", {
         roomId: state.room.id,
         turn: state.clock.turn,
         pause: state.clock.pause,
-        nPlayers: state.clock.nPlayers,
+        nPlayers: state.clock.master.nPlayers,
         masterTime: state.clock.master.time,
         masterCountdown: state.clock.master.countdown,
         masterAdditional: state.clock.master.additional,

@@ -29,32 +29,28 @@
     <div class="d-flex justify-content-around">
       <InputSpinner
         class="mx-1"
-        v-model="master.nPlayers"
-        v-bind:emit="emitNPlayers"
+        v-model="localMaster.nPlayers"
         v-bind:max="100"
         v-bind:min="2"
         label="プレイヤー人数"
       ></InputSpinner>
       <InputSpinner
         class="mx-1"
-        v-model="master.time"
-        v-bind:emit="emitMasterTime"
+        v-model="localMaster.time"
         v-bind:max="720"
         v-bind:min="0"
         label="持ち時間（分）"
       ></InputSpinner>
       <InputSpinner
         class="mx-1"
-        v-model="master.countdown"
-        v-bind:emit="emitMasterCountdown"
+        v-model="localMaster.countdown"
         v-bind:max="600"
         v-bind:min="0"
         label="秒読み（秒）"
       ></InputSpinner>
       <InputSpinner
         class="mx-1"
-        v-model="master.additional"
-        v-bind:emit="emitMasterAdditional"
+        v-model="localMaster.additional"
         v-bind:max="600"
         v-bind:min="0"
         label="追加時間（秒）"
@@ -82,6 +78,19 @@ export default Vue.extend({
     turn: function() {
       return this.$store.state.clock.turn
     },
+    masterNPlayers: function() {
+      return this.master.nPlayers
+    },
+    masterTime: function() {
+      // debug: console.log("computed masterTime")
+      return this.master.time
+    },
+    masterCountdown: function() {
+      return this.master.countdown
+    },
+    masterAdditional: function() {
+      return this.master.additional
+    },
     ...mapState("clock", [
       //"playersTurn",
       "players",
@@ -94,10 +103,18 @@ export default Vue.extend({
       performanceNow: undefined,
       requestID: undefined,
       subtotal: 0,
+      localMaster: {
+        nPlayers: 2,
+        time: 0,
+        countdown: 0,
+        additional: 0,
+      },
     }
   },
   created() {
-    //this.reset()
+    // debug: console.log(this.localMaster)
+    // debug: console.log(this.master)
+    Object.assign(this.localMaster, this.master)
   },
   mounted() {
     this.startLoop()
@@ -107,6 +124,18 @@ export default Vue.extend({
   watch: {
     turn: function() {
       this.subtotal = 0
+    },
+    masterNPlayers: function() {
+      this.localMaster.nPlayers = this.master.nPlayers
+    },
+    masterTime: function() {
+      this.localMaster.time = this.master.time
+    },
+    masterCountdown: function() {
+      this.localMaster.countdown = this.master.countdown
+    },
+    masterAdditional: function() {
+      this.localMaster.additional = this.master.additional
     },
   },
   methods: {
@@ -165,21 +194,27 @@ export default Vue.extend({
       }
     },
     reset() {
+      this.$store.commit("clock/setNPlayers", this.localMaster.nPlayers)
+      this.$store.commit("clock/setMasterTime", this.localMaster.time)
+      this.$store.commit("clock/setMasterCountdown", this.localMaster.countdown)
+      this.$store.commit("clock/setMasterAdditional", this.localMaster.additional)
       this.$store.commit("clock/reset")
     },
-    emitNPlayers: function(newValue) {
-      // debug: console.log("emitNPlayers: " + newValue)
-      this.$store.commit("clock/emitNPlayers", {nPlayers: newValue})
-    },
-    emitMasterTime: function(newValue) {
-      this.$store.commit("clock/emitMasterTime", {masterTime: newValue})
-    },
-    emitMasterCountdown: function(newValue) {
-      this.$store.commit("clock/emitMasterCountdown", {masterCountdown: newValue})
-    },
-    emitMasterAdditional: function(newValue) {
-      this.$store.commit("clock/emitMasterAdditional", {masterAdditional: newValue})
-    },
+    //emitNPlayers: function(newValue) {
+    //  // debug: console.log("emitNPlayers: " + newValue)
+    //  // debug: console.log(this.localMaster)
+    //  this.localMaster.nPlayers = newValue
+    //  // debug: console.log(this.localMaster)
+    //},
+    //emitMasterTime: function(newValue) {
+    //  this.localMaster.time = newValue
+    //},
+    //emitMasterCountdown: function(newValue) {
+    //  this.localMaster.countdown = newValue
+    //},
+    //emitMasterAdditional: function(newValue) {
+    //  this.localMaster.additional = newValue
+    //},
   }
 })
 </script>

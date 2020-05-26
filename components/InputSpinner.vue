@@ -22,7 +22,7 @@ export default Vue.extend({
     min: Number,
     label: String,
     description: String,
-    emit: Function,
+    //emit: Function,
   },
   data() {
     return {
@@ -39,10 +39,10 @@ export default Vue.extend({
       } else if (newValue < this.min) {
         newValue = this.min
       }
-      //this.$emit('input', newValue)
-      if (this.emit) {
-        this.emit(newValue)
-      }
+      this.$emit('input', newValue)
+      //if (this.emit) {
+      //  this.emit(newValue)
+      //}
     },
   }
 })
