@@ -27,8 +27,9 @@ RUN npm ci && npm cache clean --force
 # Copy source code
 COPY . .
 
-# Set permissions for the app directory
-RUN chown -R nuxtjs:nodejs /app
+# Create .nuxt directory with correct permissions
+RUN mkdir -p /app/.nuxt && \
+    chown -R nuxtjs:nodejs /app
 
 # Switch to non-root user
 USER nuxtjs
