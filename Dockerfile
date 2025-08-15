@@ -12,7 +12,7 @@ RUN apk add --no-cache libc6-compat python3 make g++
 COPY package*.json ./
 
 # Install dependencies with optimizations for production
-RUN npm ci --only=production --ignore-scripts && \
+RUN npm ci --production --ignore-scripts && \
     npm cache clean --force
 
 # Stage 2: Build stage
@@ -28,6 +28,9 @@ RUN npm ci --ignore-scripts
 
 # Copy source code
 COPY . .
+
+# Set OpenSSL legacy provider for Node.js 18+ compatibility with Webpack 4
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Build the application
 RUN npm run build && \
@@ -61,6 +64,7 @@ COPY --from=builder --chown=nuxtjs:nodejs /app/server ./server
 ENV NODE_ENV=production
 ENV NUXT_HOST=0.0.0.0
 ENV NUXT_PORT=3000
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Expose port
 EXPOSE 3000
