@@ -91,3 +91,11 @@ sw.*
 
 # Redis
 *.rdb
+
+# Docker data volumes
+docker/data/
+docker/volumes/
+
+# Local development files
+.env.local
+.env.*.local

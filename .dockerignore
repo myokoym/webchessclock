@@ -99,3 +99,8 @@ __tests__/
 
 # Fly.io
 fly.toml
+
+# Docker volumes and data
+docker/data/
+docker/volumes/
+*.rdb

@@ -3,8 +3,6 @@
 # Development Environment Setup
 # =================================
 
-version: '3.8'
-
 services:
   # =================================
   # Web Application Service (Nuxt.js)
@@ -86,10 +84,6 @@ volumes:
   # Redis data persistence across container restarts
   redis_data:
     driver: local
-    driver_opts:
-      type: none
-      o: bind
-      device: ./docker/data/redis
 
   # Nuxt.js build cache for faster rebuilds
   nuxt_build:

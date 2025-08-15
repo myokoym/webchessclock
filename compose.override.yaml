@@ -1,8 +1,6 @@
 # Docker Compose Override for Development
-# This file extends docker-compose.yml with development-specific settings
-# It's automatically loaded by docker-compose when present
-
-version: '3.8'
+# This file extends compose.yaml with development-specific settings
+# It's automatically loaded by docker compose when present
 
 services:
   web:
