@@ -7,9 +7,12 @@
 
 ### Current Specs
 - `container-deployment-strategy`: webchessclockプロジェクトに適したコンテナ戦略とデプロイ戦略の策定
-  - Status: initialized
+  - Status: tasks-generated
   - Created: 2025-08-15
-  - Next: `/kiro:spec-requirements container-deployment-strategy`
+  - Requirements: ✅ 承認済み
+  - Design: ✅ 承認済み
+  - Tasks: ✅ 生成済み（20タスク）
+  - Next: 実装開始可能
 
 ## Project-Specific Guidelines
 

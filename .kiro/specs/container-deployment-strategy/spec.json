@@ -1,20 +1,20 @@
 {
   "feature_name": "container-deployment-strategy",
   "created_at": "2025-08-15T12:19:00Z",
-  "updated_at": "2025-08-15T12:19:00Z",
+  "updated_at": "2025-08-15T12:48:00Z",
   "language": "japanese",
-  "phase": "initialized",
+  "phase": "tasks-generated",
   "approvals": {
     "requirements": {
-      "generated": false,
-      "approved": false
+      "generated": true,
+      "approved": true
     },
     "design": {
-      "generated": false,
-      "approved": false
+      "generated": true,
+      "approved": true
     },
     "tasks": {
-      "generated": false,
+      "generated": true,
       "approved": false
     }
   },
