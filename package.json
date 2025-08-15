@@ -30,7 +30,10 @@
     "docker:helper": "./docker/dev-helper.sh",
     "deploy:fly": "fly deploy",
     "deploy:setup": "fly launch",
-    "test:redis": "node scripts/test-redis.js",
+    "test": "docker compose run --rm test",
+    "test:build": "docker compose run --rm test npm run build",
+    "test:redis": "docker compose run --rm test node scripts/test-redis.js",
+    "test:native": "npm run build",
     "clean": "rm -rf .nuxt dist node_modules/.cache"
   },
   "dependencies": {

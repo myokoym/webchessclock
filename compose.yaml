@@ -77,6 +77,38 @@ services:
         reservations:
           memory: 256M
 
+  # =================================
+  # Test Service (Build and Test Execution)
+  # =================================
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: webchessclock-test
+    environment:
+      - NODE_ENV=test
+      - HOST=0.0.0.0
+      - PORT=3000
+      - REDIS_URL=redis://redis:6379
+    env_file:
+      - .env
+    volumes:
+      # Mount source code for testing
+      - .:/app:cached
+      # Exclude node_modules from being overwritten
+      - /app/node_modules
+      # Exclude .nuxt directory to avoid permission issues
+      - /app/.nuxt
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - webchessclock-network
+    # Default command is to run build test
+    command: ["npm", "run", "build"]
+    # Working directory
+    working_dir: /app
+
 # =================================
 # Named Volumes for Data Persistence
 # =================================
