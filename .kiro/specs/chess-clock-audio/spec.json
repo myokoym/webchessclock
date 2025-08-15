@@ -1,0 +1,43 @@
+{
+  "feature_name": "chess-clock-audio",
+  "display_name": "チェスクロック音声機能",
+  "description": "チェスクロックに音声フィードバック機能を追加し、プレイヤーの個人識別とカスタマイズ可能な音声設定を提供する",
+  "language": "ja",
+  "created_date": "2025-08-15",
+  "updated_at": "2025-08-15T23:45:00",
+  "phase": "tasks-generated",
+  "phases": {
+    "requirements": {
+      "status": "generated",
+      "completed_date": "2025-08-15",
+      "approved": true,
+      "generated": true
+    },
+    "design": {
+      "status": "generated",
+      "completed_date": "2025-08-15",
+      "approved": true,
+      "generated": true
+    },
+    "tasks": {
+      "status": "generated", 
+      "completed_date": "2025-08-15",
+      "approved": false,
+      "generated": true
+    },
+    "implementation": {
+      "status": "pending",
+      "completed_date": null
+    }
+  },
+  "priority": "medium",
+  "complexity": "medium",
+  "estimated_hours": 16,
+  "tags": ["audio", "ui", "ux", "vue", "browser-api"],
+  "dependencies": [],
+  "stakeholders": ["開発者", "ユーザー"],
+  "related_files": [
+    "/home/myokoym/dev/web/webchessclock/components/Clock.vue",
+    "/home/myokoym/dev/web/webchessclock/store/clock.js"
+  ]
+}
