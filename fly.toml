@@ -1,0 +1,39 @@
+# Fly.io configuration for webchessclock
+# Optimized for minimal RAM usage (256MB target)
+
+app = "webchessclock"
+primary_region = "nrt" # Tokyo region, adjust as needed
+
+[build]
+
+[env]
+  NODE_ENV = "production"
+  NUXT_HOST = "0.0.0.0"
+  NUXT_PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = true
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "30s"
+  method = "GET"
+  timeout = "5s"
+  path = "/api/health"
+
+[vm]
+  cpu_kind = "shared"
+  cpus = 1
+  memory_mb = 256
+
+[[vm.restart_policy]]
+  policy = "always"
+
+# Redis configuration (if using Fly Redis)
+# Uncomment and configure if you're using Fly's Redis service
+# [redis]
+#   plan = "fly_io_free"

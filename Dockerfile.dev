@@ -1,0 +1,52 @@
+# Development Dockerfile for WebChessClock
+# Optimized for hot reload and fast development cycles
+
+FROM node:18-alpine
+
+# Install system dependencies
+RUN apk add --no-cache \
+    libc6-compat \
+    python3 \
+    make \
+    g++ \
+    git \
+    curl \
+    wget
+
+# Create app directory
+WORKDIR /app
+
+# Create non-root user for development
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 --shell /bin/sh nuxtjs && \
+    chown -R nuxtjs:nodejs /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci && npm cache clean --force
+
+# Copy source code
+COPY . .
+
+# Change ownership of app directory
+RUN chown -R nuxtjs:nodejs /app
+
+# Switch to non-root user
+USER nuxtjs
+
+# Expose port
+EXPOSE 3000
+
+# Set environment for development
+ENV NODE_ENV=development
+ENV HOST=0.0.0.0
+ENV PORT=3000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
+    CMD curl -f http://localhost:3000/ || exit 1
+
+# Start development server with hot reload
+CMD ["npm", "run", "dev"]
