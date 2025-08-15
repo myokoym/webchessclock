@@ -15,6 +15,7 @@
     "start": "cross-env NODE_ENV=production node server/index.js",
     "generate": "nuxt generate",
     "dev:native": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev:docker-native": "cross-env NODE_ENV=development NUXT_CONFIG_PATH=/app/nuxt.config.docker.js nodemon server/index.js --watch server",
     "dev:native:redis": "cross-env REDIS_URL=redis://localhost:6379 NODE_ENV=development nodemon server/index.js --watch server",
     "dev:rebuild": "docker compose down && docker compose up --build",
     "dev:node18": "docker run -it --rm -v $(pwd):/app -w /app -p 3000:3000 -e REDIS_URL=redis://host.docker.internal:6379 node:18-alpine sh -c 'npm install && npm run dev:native'",

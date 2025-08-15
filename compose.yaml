@@ -35,7 +35,7 @@ services:
       - webchessclock-network
     restart: unless-stopped
     # Override the default command to run development server
-    command: ["npm", "run", "dev:native"]
+    command: ["npm", "run", "dev:docker-native"]
     # Health check for the web service
     healthcheck:
       test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]

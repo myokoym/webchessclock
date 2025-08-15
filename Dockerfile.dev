@@ -18,22 +18,19 @@ WORKDIR /app
 
 # Create non-root user for development
 RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 --shell /bin/sh nuxtjs && \
-    chown -R nuxtjs:nodejs /app
+    adduser --system --uid 1001 --shell /bin/sh nuxtjs
 
-# Copy package files
+# Install dependencies as root
 COPY package*.json ./
-
-# Install dependencies
 RUN npm ci && npm cache clean --force
 
-# Copy source code with correct ownership
-COPY --chown=nuxtjs:nodejs . .
+# Copy source code
+COPY . .
 
-# Create .nuxt directory with correct permissions
-RUN mkdir -p /app/.nuxt && \
-    chown -R nuxtjs:nodejs /app/.nuxt && \
-    chmod -R 755 /app/.nuxt
+# Set permissions for the app directory
+RUN chown -R nuxtjs:nodejs /app && \
+    mkdir -p /tmp/.nuxt && \
+    chown -R nuxtjs:nodejs /tmp/.nuxt
 
 # Switch to non-root user
 USER nuxtjs
@@ -45,10 +42,11 @@ EXPOSE 3000
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ENV NUXT_CONFIG_PATH=/app/nuxt.config.docker.js
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:3000/ || exit 1
 
 # Start development server with hot reload
-CMD ["npm", "run", "dev:native"]
+CMD ["npm", "run", "dev:docker-native"]
