@@ -81,14 +81,17 @@ See `.env.example` for detailed configuration options and examples.
 ### Development Commands
 
 ```bash
-# Start development server with hot reload
+# Start development server with Docker (RECOMMENDED)
 npm run dev
 
-# Start development with local Redis
-npm run dev:local
+# Start Docker development in background
+npm run dev:detached
 
-# Start development with Docker
-npm run dev:docker
+# Start native development (requires Node.js 14-18)
+npm run dev:native
+
+# Start native with local Redis (requires Node.js 14-18)
+npm run dev:native:redis
 ```
 
 ### Build Commands
@@ -113,11 +116,14 @@ npm run docker:build
 # Run Docker container
 npm run docker:run
 
-# Start with Docker Compose (detached)
+# Start services (detached)
 npm run docker:up
 
-# Stop Docker Compose services
+# Stop services
 npm run docker:down
+
+# Rebuild development environment
+npm run dev:docker:rebuild
 ```
 
 ### Deployment Commands
