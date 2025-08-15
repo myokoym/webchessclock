@@ -9,8 +9,7 @@ const moment = require('moment')
 const healthRoutes = require('./api/health')
 
 // Import and Set Nuxt.js options
-const configPath = process.env.NUXT_CONFIG_PATH || '../nuxt.config.js'
-const config = require(configPath)
+const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
 
 async function start () {

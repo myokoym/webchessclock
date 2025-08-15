@@ -28,9 +28,7 @@ RUN npm ci && npm cache clean --force
 COPY . .
 
 # Set permissions for the app directory
-RUN chown -R nuxtjs:nodejs /app && \
-    mkdir -p /tmp/.nuxt && \
-    chown -R nuxtjs:nodejs /tmp/.nuxt
+RUN chown -R nuxtjs:nodejs /app
 
 # Switch to non-root user
 USER nuxtjs
@@ -42,11 +40,11 @@ EXPOSE 3000
 ENV NODE_ENV=development
 ENV HOST=0.0.0.0
 ENV PORT=3000
-ENV NUXT_CONFIG_PATH=/app/nuxt.config.docker.js
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=30s --retries=3 \
     CMD curl -f http://localhost:3000/ || exit 1
 
 # Start development server with hot reload
-CMD ["npm", "run", "dev:docker-native"]
+CMD ["npm", "run", "dev:native"]
