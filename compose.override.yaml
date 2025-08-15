@@ -10,9 +10,11 @@ services:
       - NUXT_DEBUG=true
       # NODE_OPTIONS removed to avoid port conflict - uncomment if needed
       # - NODE_OPTIONS=--inspect=0.0.0.0:9229
-    # Debugger port removed to avoid conflict - uncomment if needed
-    # ports:
-    #   - "9229:9229"
+    ports:
+      # Nuxt.js開発サーバー（shogiwebroomと重複しないよう3001に変更）
+      - "3001:3000"
+      # デバッガーポート（変更が必要な場合）
+      # - "9230:9229"
     # Override development command for debugging
     # Uncomment the line below to enable debugging
     # command: ["node", "--inspect=0.0.0.0:9229", "node_modules/.bin/nuxt", "dev"]
@@ -46,6 +48,10 @@ services:
     environment:
       - REDIS_APPENDONLY=yes
       - REDIS_APPENDFSYNC=everysec
+    
+    ports:
+      # Redis CLI接続用（shogiwebroomと重複しないよう6380に変更）
+      - "6380:6379"
     
     # Development-specific labels
     labels:
