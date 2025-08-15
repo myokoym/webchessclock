@@ -26,8 +26,8 @@ services:
       - .:/app:cached
       # Exclude node_modules from being overwritten by host volume
       - /app/node_modules
-      # Use named volume for .nuxt to avoid permission issues
-      - nuxt_build:/app/.nuxt
+      # Exclude .nuxt directory from host mount to avoid permission issues
+      - /app/.nuxt
     depends_on:
       redis:
         condition: service_healthy
@@ -83,10 +83,6 @@ services:
 volumes:
   # Redis data persistence across container restarts
   redis_data:
-    driver: local
-
-  # Nuxt.js build cache for faster rebuilds
-  nuxt_build:
     driver: local
 
 # =================================

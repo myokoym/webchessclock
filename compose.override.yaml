@@ -23,17 +23,18 @@ services:
       - .:/app:cached
       # Exclude node_modules from being overwritten
       - /app/node_modules
-      # Mount additional development directories
-      - ./.nuxt:/app/.nuxt
-      - ./static:/app/static
-      - ./assets:/app/assets
-      - ./components:/app/components
-      - ./layouts:/app/layouts
-      - ./middleware:/app/middleware
-      - ./pages:/app/pages
-      - ./plugins:/app/plugins
-      - ./server:/app/server
-      - ./store:/app/store
+      # Exclude .nuxt directory - let container manage it
+      - /app/.nuxt
+      # Mount specific directories for hot reload
+      - ./static:/app/static:cached
+      - ./assets:/app/assets:cached
+      - ./components:/app/components:cached
+      - ./layouts:/app/layouts:cached
+      - ./middleware:/app/middleware:cached
+      - ./pages:/app/pages:cached
+      - ./plugins:/app/plugins:cached
+      - ./server:/app/server:cached
+      - ./store:/app/store:cached
     
     # Development-specific labels for easier identification
     labels:
