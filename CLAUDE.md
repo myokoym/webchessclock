@@ -16,6 +16,12 @@
 
 ## Project-Specific Guidelines
 
+### Shell Command Format
+- **一時的な実行コマンド**: `&&`でつなげて1行で提供
+- **コメントを含めない**: zshで`#`がコメントとして認識されない問題を回避
+- **例**: `docker compose down -v && docker rmi image-name && npm run dev`
+- **理由**: ユーザーがzshを使用しており、コピペで一括実行するため
+
 ### Technology Stack
 - Frontend: Nuxt.js 2.x (Universal Mode)
 - Backend: Express.js + Socket.io
