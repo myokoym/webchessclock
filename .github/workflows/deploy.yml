@@ -3,8 +3,24 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'blogs/**'
+      - '.kiro/**'
+      - '.claude/**'
+      - 'LICENSE'
+      - '.gitignore'
   pull_request:
     branches: [master]
+    paths-ignore:
+      - 'README.md'
+      - 'docs/**'
+      - 'blogs/**'
+      - '.kiro/**'
+      - '.claude/**'
+      - 'LICENSE'
+      - '.gitignore'
   workflow_dispatch:
     inputs:
       deploy_environment:
