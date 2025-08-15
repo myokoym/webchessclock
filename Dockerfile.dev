@@ -27,11 +27,13 @@ COPY package*.json ./
 # Install dependencies
 RUN npm ci && npm cache clean --force
 
-# Copy source code
-COPY . .
+# Copy source code with correct ownership
+COPY --chown=nuxtjs:nodejs . .
 
-# Change ownership of app directory
-RUN chown -R nuxtjs:nodejs /app
+# Create .nuxt directory with correct permissions
+RUN mkdir -p /app/.nuxt && \
+    chown -R nuxtjs:nodejs /app/.nuxt && \
+    chmod -R 755 /app/.nuxt
 
 # Switch to non-root user
 USER nuxtjs

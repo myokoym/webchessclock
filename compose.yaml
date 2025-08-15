@@ -26,7 +26,7 @@ services:
       - .:/app:cached
       # Exclude node_modules from being overwritten by host volume
       - /app/node_modules
-      # Mount .nuxt directory for faster rebuilds
+      # Use named volume for .nuxt to avoid permission issues
       - nuxt_build:/app/.nuxt
     depends_on:
       redis:
