@@ -17,6 +17,7 @@
     "dev:docker:detached": "docker-compose up --build -d",
     "dev:docker:rebuild": "docker-compose down && docker-compose up --build",
     "dev:local": "cross-env REDIS_URL=redis://localhost:6379 NODE_ENV=development nodemon server/index.js --watch server",
+    "dev:node18": "docker run -it --rm -v $(pwd):/app -w /app -p 3000:3000 -e REDIS_URL=redis://host.docker.internal:6379 node:18-alpine sh -c 'npm install && npm run dev'",
     "docker:build": "docker build -t webchessclock .",
     "docker:run": "docker run -p 3000:3000 --env-file .env webchessclock",
     "docker:up": "docker-compose up -d",
