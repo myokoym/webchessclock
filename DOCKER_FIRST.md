@@ -79,7 +79,7 @@ npm run dev:native
 # Stop all containers
 npm run docker:down
 
-# Or change port in docker-compose.yml
+# Or change port in compose.yaml
 ```
 
 ## Architecture Decision Record (ADR)

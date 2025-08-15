@@ -8,7 +8,7 @@ This directory contains Docker configuration and helper scripts for local develo
    ```bash
    # Ensure Docker and Docker Compose are installed
    docker --version
-   docker-compose --version
+   docker compose --version
    ```
 
 2. **Environment Setup**
@@ -26,7 +26,7 @@ This directory contains Docker configuration and helper scripts for local develo
    npm run dev:docker
    
    # Or using Docker Compose directly
-   docker-compose up --build
+   docker compose up --build
    
    # Or using the helper script
    ./docker/dev-helper.sh start
@@ -85,32 +85,32 @@ npm run docker:helper start
 
 ```bash
 # Start services
-docker-compose up --build
+docker compose up --build
 
 # Start in background
-docker-compose up --build -d
+docker compose up --build -d
 
 # Stop services
-docker-compose down
+docker compose down
 
 # View logs
-docker-compose logs -f
-docker-compose logs -f web
-docker-compose logs -f redis
+docker compose logs -f
+docker compose logs -f web
+docker compose logs -f redis
 
 # Restart services
-docker-compose restart
+docker compose restart
 
 # Rebuild services
-docker-compose up --build --force-recreate
+docker compose up --build --force-recreate
 
 # Execute commands in containers
-docker-compose exec web npm install
-docker-compose exec web npm audit fix
-docker-compose exec redis redis-cli
+docker compose exec web npm install
+docker compose exec web npm audit fix
+docker compose exec redis redis-cli
 
 # Scale services (multiple web instances)
-docker-compose up --scale web=2
+docker compose up --scale web=2
 ```
 
 ### Using the Helper Script
@@ -202,10 +202,10 @@ Source code changes are automatically detected and trigger application restart:
 
 ### Debugging
 
-Enable Node.js debugging by uncommenting the debug command in `docker-compose.override.yml`:
+Enable Node.js debugging by uncommenting the debug command in `docker compose.override.yml`:
 
 ```yaml
-# Uncomment this line in docker-compose.override.yml
+# Uncomment this line in docker compose.override.yml
 command: ["node", "--inspect=0.0.0.0:9229", "node_modules/.bin/nuxt", "dev"]
 ```
 
@@ -216,8 +216,8 @@ Then connect your debugger to `localhost:9229`.
 The development environment loads configuration from:
 
 1. `.env` file (primary configuration)
-2. `docker-compose.yml` (service defaults)
-3. `docker-compose.override.yml` (development overrides)
+2. `docker compose.yml` (service defaults)
+3. `docker compose.override.yml` (development overrides)
 
 ## Troubleshooting
 
@@ -235,17 +235,17 @@ The development environment loads configuration from:
 2. **Redis Connection Issues**
    ```bash
    # Check Redis health
-   docker-compose exec redis redis-cli ping
+   docker compose exec redis redis-cli ping
    
    # View Redis logs
-   docker-compose logs redis
+   docker compose logs redis
    ```
 
 3. **Node Modules Issues**
    ```bash
    # Rebuild node_modules volume
-   docker-compose down -v
-   docker-compose up --build
+   docker compose down -v
+   docker compose up --build
    ```
 
 4. **Permission Issues**
@@ -260,21 +260,21 @@ Monitor service health:
 
 ```bash
 # Check all services
-docker-compose ps
+docker compose ps
 
 # Detailed health status
 ./docker/dev-helper.sh status
 
 # Manual health checks
 curl http://localhost:3000/
-docker-compose exec redis redis-cli ping
+docker compose exec redis redis-cli ping
 ```
 
 ### Performance Optimization
 
 1. **Use Volume Caches**
    ```yaml
-   # Already configured in docker-compose.yml
+   # Already configured in docker compose.yml
    volumes:
      - .:/app:cached  # Optimized for macOS
    ```

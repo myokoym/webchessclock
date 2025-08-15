@@ -55,7 +55,7 @@ check_env() {
 # Function to start services
 start_services() {
     print_info "Starting WebChessClock development environment..."
-    docker-compose up --build -d
+    docker compose up --build -d
     print_success "Services started successfully!"
     print_info "Web application: http://localhost:3000"
     print_info "Redis: localhost:6379"
@@ -64,7 +64,7 @@ start_services() {
 # Function to stop services
 stop_services() {
     print_info "Stopping WebChessClock development environment..."
-    docker-compose down
+    docker compose down
     print_success "Services stopped successfully!"
 }
 
@@ -73,10 +73,10 @@ view_logs() {
     local service=${1:-""}
     if [ -z "$service" ]; then
         print_info "Showing logs for all services..."
-        docker-compose logs -f
+        docker compose logs -f
     else
         print_info "Showing logs for $service..."
-        docker-compose logs -f "$service"
+        docker compose logs -f "$service"
     fi
 }
 
@@ -86,7 +86,7 @@ clean_all() {
     read -r response
     if [[ "$response" =~ ^([yY][eE][sS]|[yY])$ ]]; then
         print_info "Cleaning up Docker environment..."
-        docker-compose down -v --remove-orphans
+        docker compose down -v --remove-orphans
         docker system prune -f
         print_success "Cleanup completed!"
     else
@@ -97,26 +97,26 @@ clean_all() {
 # Function to restart services
 restart_services() {
     print_info "Restarting WebChessClock development environment..."
-    docker-compose restart
+    docker compose restart
     print_success "Services restarted successfully!"
 }
 
 # Function to rebuild services
 rebuild_services() {
     print_info "Rebuilding WebChessClock development environment..."
-    docker-compose down
-    docker-compose up --build -d
+    docker compose down
+    docker compose up --build -d
     print_success "Services rebuilt and started successfully!"
 }
 
 # Function to show service status
 show_status() {
     print_info "Service status:"
-    docker-compose ps
+    docker compose ps
     echo ""
     print_info "Service health:"
-    docker-compose exec web wget --no-verbose --tries=1 --spider http://localhost:3000/ >/dev/null 2>&1 && print_success "Web service is healthy" || print_error "Web service is not responding"
-    docker-compose exec redis redis-cli ping >/dev/null 2>&1 && print_success "Redis service is healthy" || print_error "Redis service is not responding"
+    docker compose exec web wget --no-verbose --tries=1 --spider http://localhost:3000/ >/dev/null 2>&1 && print_success "Web service is healthy" || print_error "Web service is not responding"
+    docker compose exec redis redis-cli ping >/dev/null 2>&1 && print_success "Redis service is healthy" || print_error "Redis service is not responding"
 }
 
 # Function to execute commands in containers
@@ -132,7 +132,7 @@ exec_command() {
     fi
     
     print_info "Executing '$command' in $service container..."
-    docker-compose exec "$service" $command
+    docker compose exec "$service" $command
 }
 
 # Function to show help
