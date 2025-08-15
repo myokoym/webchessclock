@@ -49,18 +49,8 @@ module.exports = {
     vendor: [
       "socket.io-client"
     ],
-    // Disable PostCSS plugins to avoid PostCSS 8 compatibility issues
-    postcss: {
-      plugins: {
-        'postcss-import': false,
-        'postcss-url': false,
-        'postcss-preset-env': {
-          autoprefixer: {
-            grid: true
-          }
-        }
-      }
-    },
+    // Simplify PostCSS configuration
+    postcss: null,
     /*
     ** You can extend webpack config here
     */
